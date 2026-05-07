@@ -19,6 +19,6 @@ router.post("/getspeciality", userController.doSearchSpeciality);
 router.post("/tailorprofilesignup", validateToken2, userController.doTailorSignup);
 router.post("/tailorprofileupdate", validateToken2, userController.doTailorUpdate);
 router.post("/tailorprofilesearch", validateToken2, userController.doTailorFind);
-router.post("/extractaadhaar", validateToken2, userController.doExtractAadhaar);
+//router.post("/extractaadhaar", validateToken2, userController.doExtractAadhaar);
 
 module.exports = router;

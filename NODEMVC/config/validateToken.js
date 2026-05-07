@@ -1,6 +1,8 @@
 
 var jwt = require("jsonwebtoken");
-  // 🔥 ALLOW PREFLIGHT
+function validateToken2(req, resp, next) {
+
+    // 🔥 ALLOW PRE-FLIGHT
     if (req.method === "OPTIONS") {
         return next();
     }
@@ -24,7 +26,7 @@ var jwt = require("jsonwebtoken");
             msg: err.message
         });
     }
-
+}
 
 module.exports = { validateToken2 };
 
@@ -89,7 +91,7 @@ module.exports = { validateToken2 };
 //     let actualToken = ary[1];
 
 //     try {
-//         let TokenValidObj = jwt.verify(actualToken, process.env.SEC_KEY);
+//         let TokenValidObj = jwt.verify(actualToken, process.env.sec_key);
 
 //         req.user = TokenValidObj;   // 🔥 IMPORTANT
 
