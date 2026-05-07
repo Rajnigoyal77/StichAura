@@ -15,64 +15,85 @@ var UserColRef=require("../models/model_user");///export model
 
 /////////////////thenconnect to mongo****************
 /////////////////Signup ??????????????????????
-  async function doSignup(req,res)
-{
- try{
+async function doSignup(req, res) {
+  try {
 
+    console.log("BODY =>", req.body);
+
+    let email = req.body.emailid?.toLowerCase().trim();
+
+    // CHECK EXISTING USER
+    let existingUser = await UserColRef.findOne({ emailid: email });
+
+    if (existingUser) {
+      return res.status(400).json({
+        status: false,
+        msg: "User already exists"
+      });
+    }
+
+    // OTP
     let otp = Math.floor(100000 + Math.random() * 900000);
-    console.log("Generated OTP:", otp);
 
-    // 👉 req.body me OTP add karo
+    req.body.emailid = email;
     req.body.otp = otp;
     req.body.isVerified = false;
 
+    // SAVE USER
     let objUserColRef = new UserColRef(req.body);
 
-    // 👉 Ab OTP ke saath save hoga
     let doc = await objUserColRef.save();
 
+    console.log("USER SAVED");
+
+    // MAIL
     let transporter = nodemailer.createTransport({
-        service:"gmail",
-        auth:{
-            user:"goyaljanvi77196@gmail.com",
-            pass:"laavjabmmpfbxyyb"
-        }
+      service: "gmail",
+      auth: {
+        user: "goyaljanvi77196@gmail.com",
+        pass: "laavjabmmpfbxyyb"
+      }
     });
-let mailOptions = {
-    from: "goyaljanvi77196@gmail.com",
-    to: req.body.emailid,
-    subject: "Signup Successful",
-    
-    text: `Hello User,
-    
- Congrats! You have successfully signed up as ${req.body.usertype}.
+
+    let mailOptions = {
+      from: "goyaljanvi77196@gmail.com",
+      to: req.body.emailid,
+      subject: "Signup Successful",
+      text: `Hello User,
+
+Congrats! You have successfully signed up as ${req.body.usertype}.
 
 Welcome to StichAura ✨`
-};
+    };
 
     await transporter.sendMail(mailOptions);
 
-     let jtoken = jwt.sign(
-        { emailid: req.body.emailid },
-        process.env.SEC_KEY,
-        { expiresIn: "1h" }
+    console.log("MAIL SENT");
+
+    // TOKEN
+    let jtoken = jwt.sign(
+      { emailid: req.body.emailid },
+      process.env.SEC_KEY,
+      { expiresIn: "1h" }
     );
 
-    res.status(200).json({
-        status:true,
-        msg:"Record saved & OTP sent",
-        doc:doc,
-        token:jtoken   // 🔥 SEND TOKEN
-    });  
-
- }
- catch(err){
-    console.log("ERROR =>", err); 
-    res.status(500).json({
-        status:false,
-        msg:err.message
+    return res.status(200).json({
+      status: true,
+      msg: "Signup Successful",
+      doc: doc,
+      token: jtoken
     });
- }
+
+  } catch (err) {
+
+    console.log("SIGNUP ERROR =>", err);
+
+    return res.status(500).json({
+      status: false,
+      msg: err.message,
+      error: err
+    });
+  }
 }
 
          
