@@ -3,7 +3,8 @@ var app=require("express");
 var router=app.Router();
 
 //////////////jsx
-var {valdateToken2}=require("../config/validatetoken");
+// var {valdateToken2}=require("../config/validatetoken");
+var {valdateToken2}=require("../config/validateToken");
 
 //// signupp function
 
