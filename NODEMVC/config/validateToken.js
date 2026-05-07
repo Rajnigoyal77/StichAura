@@ -1,10 +1,11 @@
 
 var jwt = require("jsonwebtoken");
-function validateToken2(req, resp, next) {
+  // 🔥 ALLOW PREFLIGHT
+    if (req.method === "OPTIONS") {
+        return next();
+    }
 
     const full_token = req.headers['authorization'];
-
-    console.log("🔥 TOKEN:", full_token);
 
     if (!full_token) {
         return resp.status(401).json({ status: false, msg: "No token" });
@@ -12,23 +13,18 @@ function validateToken2(req, resp, next) {
 
     try {
         const token = full_token.split(" ")[1];
-
         const data = jwt.verify(token, process.env.SEC_KEY);
-
-        console.log("✅ VALID TOKEN:", data);
 
         req.user = data;
         next();
 
     } catch (err) {
-        console.log("❌ JWT ERROR:", err.message);
-
         return resp.status(401).json({
             status: false,
             msg: err.message
         });
     }
-}
+
 
 module.exports = { validateToken2 };
 

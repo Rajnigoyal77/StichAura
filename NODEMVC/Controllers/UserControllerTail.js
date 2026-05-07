@@ -1,238 +1,255 @@
-var path=require("path");
-// const Tesseract = require("tesseract.js");
-var cloudinary=require("cloudinary");
+var path = require("path");
+var cloudinary = require("cloudinary");
 const fs = require("fs");
- var TailProfColRef=require("../models/model_userTail")
- 
-var {genAi} =require("../config/genai");
 
+var TailProfColRef = require("../models/model_userTail");
+var { genAi } = require("../config/genai");
 
+cloudinary.config({
+    cloud_name: 'dgjpoywhd',
+    api_key: '645664418842857',
+    api_secret: 'AWkuP6-EnQ9dD6yFEV1WQQhJc04'
+});
 
-
- cloudinary.config({ 
-            cloud_name: 'dgjpoywhd', 
-            api_key: '645664418842857', 
-            api_secret: 'AWkuP6-EnQ9dD6yFEV1WQQhJc04' // Click 'View API Keys' above to copy your API secret
-        });
-/////////////////////signup////////////////////
+///////////////////// SIGNUP /////////////////////
 async function doTailorSignup(req, resp) {
-  try {
-    // ---- PROFILE PIC ----
-    let profilePic = "nopic.jpg";
-    if (req.files && req.files.profilePic) {
-      const fileName = req.files.profilePic.name;
-      const uploadsFolderPath = path.join(__dirname, "..", "uploads", fileName);
-      await req.files.profilePic.mv(uploadsFolderPath);
+    try {
+        let profilePic = "nopic.jpg";
+        let aadharCard = "nopic.jpg";
 
-      await cloudinary.uploader.upload(uploadsFolderPath).then((picUrlResult) => {
-        profilePic = picUrlResult.url; // Cloudinary URL
-        fs.unlinkSync(uploadsFolderPath); // delete local file
-      });
-    }
+        // PROFILE PIC
+        if (req.files && req.files.profilePic) {
+            const fileName = req.files.profilePic.name;
+            const uploadPath = path.join(__dirname, "..", "uploads", fileName);
 
-    // ---- AADHAR CARD ----
-    let aadharCard = "nopic.jpg";
-    if (req.files && req.files.aadharCard) {
-      const fileName = req.files.aadharCard.name;
-      const uploadsFolderPath = path.join(__dirname, "..", "uploads", fileName);
-      await req.files.aadharCard.mv(uploadsFolderPath);
+            await req.files.profilePic.mv(uploadPath);
 
-      await cloudinary.uploader.upload(uploadsFolderPath).then((picUrlResult) => {
-        aadharCard = picUrlResult.url; // Cloudinary URL
-        fs.unlinkSync(uploadsFolderPath); // delete local file
-      });
-    }
+            const result = await cloudinary.uploader.upload(uploadPath);
+            profilePic = result.url;
 
-    // ---- ADD FILE URLS TO REQ.BODY ----
-    req.body.profilePic = profilePic;
-    req.body.aadharCard = aadharCard;
-
-    // ---- SAVE TO DB ----
-    let objTailProf = new TailProfColRef(req.body);
-    objTailProf.save()
-      .then((doc) => {
-        console.log(doc);
-        resp.status(200).json({ status: true, msg: "Tailor profile saved ✅", doc });
-      })
-      .catch((err) => {
-        console.error(err);
-        resp.status(500).json({ status: false, msg: err.message });
-      });
-
-  } catch (err) {
-    console.error(err);
-    resp.status(500).json({ status: false, msg: err.message });
-  }
-}
-
-/////////////finish////////////////////////
-
-
-////////////update
- async function doTailorUpdate(req,resp)
-{
-    let profilePic="nopic.jpg";
-    let aadharCard="nopic.jpg";
-
-    if(req.files!=null)
-    {
-        if(req.files.profilePic)
-        {
-            profilePic=req.files.profilePic.name;
-            let uploadsFolderPath=path.join(__dirname,"..","uploads",profilePic);
-            req.files.profilePic.mv(uploadsFolderPath);
-
-            await cloudinary.uploader.upload(uploadsFolderPath).then(function(picUrlResult){
-                profilePic=picUrlResult.url;
-                req.body.profilePic=profilePic;   // 🔥 MAIN FIX
-            });
+            fs.unlinkSync(uploadPath);
         }
 
-        if(req.files.aadharCard)
-        {
-            aadharCard=req.files.aadharCard.name;
-            let uploadsFolderPath=path.join(__dirname,"..","uploads",aadharCard);
-            req.files.aadharCard.mv(uploadsFolderPath);
+        // AADHAR CARD
+        if (req.files && req.files.aadharCard) {
+            const fileName = req.files.aadharCard.name;
+            const uploadPath = path.join(__dirname, "..", "uploads", fileName);
 
-            await cloudinary.uploader.upload(uploadsFolderPath).then(function(picUrlResult){
-                aadharCard=picUrlResult.url;
-                req.body.aadharCard=aadharCard;   // 🔥 MAIN FIX
-            });
+            await req.files.aadharCard.mv(uploadPath);
+
+            const result = await cloudinary.uploader.upload(uploadPath);
+            aadharCard = result.url;
+
+            fs.unlinkSync(uploadPath);
         }
-    }
 
-    await TailProfColRef.findOneAndUpdate(
-        {emailid:req.body.emailid},
-        {$set:req.body}
-    ).then((doc)=>
-    {
-        resp.status(200).json({status:true,msg:"Record updated",doc:doc})
-    }).catch((err)=>
-    {
-        resp.status(200).json({status:false,msg:err.message});
-    })
-}
+        req.body.profilePic = profilePic;
+        req.body.aadharCard = aadharCard;
 
-///////////////find //////////////////////
+        let obj = new TailProfColRef(req.body);
+        await obj.save();
 
- async function doTailorFind(req,resp)
-{
-    await TailProfColRef.findOne({emailid:req.body.emailid}).then((doc)=>
-{
-    if(doc!=null)
-    //  resp.status(200).json({status:true,msg:"Record updated ",doc:doc})
-     resp.status(200).json({status:true,msg:"Record found ",doc:doc})
-      else
-         resp.status(200).json({status:false,msg:"Invalid id"})
-    
+        return resp.status(200).json({
+            status: true,
+            msg: "Tailor profile saved ✅",
+            doc: obj
+        });
 
-}).catch((err)=>
-{
-    resp.status(200).json({status:false,msg:err.message});
-
-})
-
-
-
-
-}
-
-////////////gen aii 
-async function doExtractAadhaar(req, resp)
-{
-    console.log("#####");
-
-    let fileName = "nopic.jpg";
-
-    if (req.files != null && req.files.aadharCard)
-    {
-        fileName = req.files.aadharCard.name;
-
-        let uploadsFolderPath = path.join(__dirname, "..", "uploads", fileName);
-
-        await req.files.aadharCard.mv(uploadsFolderPath);
-
-        await cloudinary.uploader.upload(uploadsFolderPath)
-        .then(async function(picUrlResult){
-
-            var fileNameUrlOnServer = picUrlResult.url;
-
-            fileName = fileNameUrlOnServer;
-
-            let jsonAdhaarData = await genAi(picUrlResult.url);
-
-            console.log("******************************");
-            console.log(jsonAdhaarData);
-            console.log("******************************");
-
-            resp.json({
-                status: true,
-                data: jsonAdhaarData
-            });
-
+    } catch (err) {
+        return resp.status(500).json({
+            status: false,
+            msg: err.message
         });
     }
-    else
-    {
-        return resp.json({ status: false, msg: "No file uploaded" });
+}
+
+///////////////////// UPDATE /////////////////////
+async function doTailorUpdate(req, resp) {
+    try {
+        if (req.files) {
+
+            if (req.files.profilePic) {
+                const fileName = req.files.profilePic.name;
+                const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+
+                await req.files.profilePic.mv(uploadPath);
+
+                const result = await cloudinary.uploader.upload(uploadPath);
+                req.body.profilePic = result.url;
+
+                fs.unlinkSync(uploadPath);
+            }
+
+            if (req.files.aadharCard) {
+                const fileName = req.files.aadharCard.name;
+                const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+
+                await req.files.aadharCard.mv(uploadPath);
+
+                const result = await cloudinary.uploader.upload(uploadPath);
+                req.body.aadharCard = result.url;
+
+                fs.unlinkSync(uploadPath);
+            }
+        }
+
+        const doc = await TailProfColRef.findOneAndUpdate(
+            { emailid: req.body.emailid },
+            { $set: req.body },
+            { new: true }
+        );
+
+        return resp.status(200).json({
+            status: true,
+            msg: "Record updated",
+            doc
+        });
+
+    } catch (err) {
+        return resp.status(500).json({
+            status: false,
+            msg: err.message
+        });
     }
 }
 
+///////////////////// FIND /////////////////////
+async function doTailorFind(req, resp) {
+    try {
+        const doc = await TailProfColRef.findOne({ emailid: req.body.emailid });
 
- //////////finish genai
-////////////////////adhar card function 
+        if (!doc) {
+            return resp.status(404).json({
+                status: false,
+                msg: "Invalid id"
+            });
+        }
 
+        return resp.status(200).json({
+            status: true,
+            msg: "Record found",
+            doc
+        });
 
+    } catch (err) {
+        return resp.status(500).json({
+            status: false,
+            msg: err.message
+        });
+    }
+}
 
-///////////////FIND TAILOR
+///////////////////// AADHAR EXTRACT /////////////////////
+async function doExtractAadhaar(req, resp) {
+    try {
+        if (!req.files || !req.files.aadharCard) {
+            return resp.status(400).json({
+                status: false,
+                msg: "No file uploaded"
+            });
+        }
+
+        const file = req.files.aadharCard;
+        const fileName = file.name;
+        const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+
+        await file.mv(uploadPath);
+
+        const result = await cloudinary.uploader.upload(uploadPath);
+
+        fs.unlinkSync(uploadPath);
+
+        const jsonAdhaarData = await genAi(result.url);
+
+        return resp.status(200).json({
+            status: true,
+            data: jsonAdhaarData
+        });
+
+    } catch (err) {
+        return resp.status(500).json({
+            status: false,
+            msg: err.message
+        });
+    }
+}
+
+///////////////////// SPECIALITY /////////////////////
 async function doSearchSpeciality(req, resp) {
-  try {
+    try {
+        const doc = await TailProfColRef.distinct("speciality", {
+            category: req.body.category
+        });
 
-    let doc = await TailProfColRef.distinct("speciality", {
-      category: req.body.category
-    });
+        return resp.status(200).json({
+            status: true,
+            speciality: doc
+        });
 
-    resp.status(200).json({
-      status: true,
-      speciality: doc
-    });
-
-  } catch (err) {
-    resp.status(500).json({ status: false, msg: err.message });
-  }
-}
-////////////////Full
-async function doFindFullRecord(req,resp)
-{
-    await TailProfColRef.find({
-        shopcity:req.body.shopcity,
-        category:req.body.category,
-        speciality:req.body.speciality
-    }).then((doc)=>
-    {
-        if(doc.length>0)
-         resp.status(200).json({status:true, msg:"Record Found✅", doc:doc})
-        else
-         resp.status(200).json({status:false,msg:"Record doesn't found❌"});
-    
-    }).catch((err)=>
-    {
-        resp.status(200).json({status:false,msg:err.message});
-    })
+    } catch (err) {
+        return resp.status(500).json({
+            status: false,
+            msg: err.message
+        });
+    }
 }
 
+///////////////////// FULL SEARCH /////////////////////
+async function doFindFullRecord(req, resp) {
+    try {
+        const doc = await TailProfColRef.find({
+            shopcity: req.body.shopcity,
+            category: req.body.category,
+            speciality: req.body.speciality
+        });
 
-/////////////////////////////////////////////City?/////////////////////////////////
-async function doSearchCity(req,resp)
-{
-     const cities = await TailProfColRef.distinct("shopcity", { shopCity: { $ne: "" } });
-     resp.status(200).json({ status: true, cities:cities });
+        if (doc.length === 0) {
+            return resp.status(404).json({
+                status: false,
+                msg: "Record doesn't found ❌"
+            });
+        }
+
+        return resp.status(200).json({
+            status: true,
+            msg: "Record Found ✅",
+            doc
+        });
+
+    } catch (err) {
+        return resp.status(500).json({
+            status: false,
+            msg: err.message
+        });
+    }
 }
 
+///////////////////// CITY /////////////////////
+async function doSearchCity(req, resp) {
+    try {
+        const cities = await TailProfColRef.distinct("shopcity", {
+            shopcity: { $ne: "" }
+        });
 
+        return resp.status(200).json({
+            status: true,
+            cities
+        });
 
+    } catch (err) {
+        return resp.status(500).json({
+            status: false,
+            msg: err.message
+        });
+    }
+}
 
-
-// module.exports = { doTailorSignup,doTailorSearch,doTailorUpdate,doSearchCity,doSearchSpeciality,doFindFullRecord};
-
-    module.exports={doTailorSignup,doTailorUpdate,doTailorFind,doExtractAadhaar,doSearchSpeciality,doFindFullRecord,doSearchCity};        
+module.exports = {
+    doTailorSignup,
+    doTailorUpdate,
+    doTailorFind,
+    doExtractAadhaar,
+    doSearchSpeciality,
+    doFindFullRecord,
+    doSearchCity
+};

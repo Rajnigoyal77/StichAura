@@ -6,29 +6,27 @@ const fileUpload = require("express-fileupload");
 
 const app = express();
 
-// ROUTERS
-const userRouter = require("./routers/UserRouter");
-const userRouterCus = require("./routers/UserRouterCus");
-const UserRouterTail = require("./routers/UserRouterTail");
-const UserRouterReviews = require("./routers/UserRouterReviews");
-
 // DB
 const { connectAtlasDB } = require("./config/dbatlas");
 connectAtlasDB();
+
+// 🔥 CORS FIRST
+app.use(cors({
+  origin: "https://stich-aura-1vwa.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
+// 🔥 IMPORTANT: preflight handle
+app.options("*", cors());
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
-// CORS
-app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
-// ROUTES
+// ROUTERS
 app.use("/user", userRouter);
 app.use("/customer", userRouterCus);
 app.use("/tailor", UserRouterTail);
@@ -42,5 +40,4 @@ app.get("/", (req, res) => {
   });
 });
 
-// EXPORT
 module.exports = app;
