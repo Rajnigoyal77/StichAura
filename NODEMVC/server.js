@@ -40,12 +40,11 @@ app.use("/tailor", UserRouterTail);
 app.use("/review", UserRouterReviews);
 //app.use("/tailor", UserRouterFind);
 
-app.listen(2007, () => {
-  console.log("Server Started on :2007");
+app.get("/", (req, res) => {
+  res.send("Backend Running Successfully");
 });
 
-
-
+module.exports = app;
 
 
 

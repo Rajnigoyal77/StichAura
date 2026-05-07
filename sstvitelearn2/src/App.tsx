@@ -22,7 +22,7 @@ import Signup from "./curdAxios/Signup";
 import CustomerDashboard from "./curdAxios/CustomerDashboard";
 import TailorDash from "./curdAxios/TailorDash";
 
-import NavBar from "./routing2/NavBar";
+//import NavBar from "./routing2/NavBar";
 import CustomerProfile from "./curdAxios/CustomerProfile";
 import TailorProfile from "./curdAxios/TailorProfile";
 import FindTailor from "./curdAxios/FindTailor";
