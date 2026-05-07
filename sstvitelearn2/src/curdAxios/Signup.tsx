@@ -60,28 +60,20 @@ interface SignupForm {
 
  
       ///////////signup button 1 step for click
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
   if (!validate()) return;
 
-  console.log(form);
-let url = "https://stich-aura.vercel.app/user/signupaxios";
+  let url = "https://stich-aura.vercel.app/user/signupaxios";
 
-let response = await axios.post(url, form);
-
-console.log(response.data);
-
-try {
-  let response = await axios.post(url, form);
-
-  console.log("RESPONSE:", response.data);
-  alert(JSON.stringify(response.data));
-} catch (error) {
-  console.log("ERROR:", error);
-}
-
+  try {
+    let response = await axios.post(url, form);
+    console.log("RESPONSE:", response.data);
+    alert(response.data.msg);
+  } catch (error: any) {
+    console.log("ERROR:", error.response?.data || error.message);
+  }
 
 
 
