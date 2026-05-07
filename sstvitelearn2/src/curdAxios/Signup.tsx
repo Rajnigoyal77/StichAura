@@ -67,34 +67,20 @@ interface SignupForm {
   if (!validate()) return;
 
   console.log(form);
+let url = "https://stich-aura.vercel.app/user/signupaxios";
 
- let url = "https://stich-aura.vercel.app/user/signupaxios";
+let response = await axios.post(url, form);
 
-  try {
+console.log(response.data);
 
-    // let response = await axios.post(url, form);
+try {
+  let response = await axios.post(url, form);
 
-    // alert(JSON.stringify(response.data));
-
-    let response = await axios.post(url, form);
-
-console.log("RESPONSE:", response.data);
-
-// ✅ SAVE TOKEN
-if (response.data.token) {
-  localStorage.setItem("token", response.data.token);
+  console.log("RESPONSE:", response.data);
+  alert(JSON.stringify(response.data));
+} catch (error) {
+  console.log("ERROR:", error);
 }
-
-alert("Signup Success & Token Saved ✅");
-
-  }
-  catch(err){
-    console.log(err);
-
-
-
-    
-  }
 
 
 

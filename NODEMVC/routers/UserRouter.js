@@ -1,36 +1,11 @@
-var userController=require("../Controllers/UserController");
-var app=require("express");
-var router=app.Router();
+const express = require("express");
+const router = express.Router();
 
-//////////////jsx
-// var {valdateToken2}=require("../config/validatetoken");
+const userController = require("../Controllers/UserController");
+const { validateToken2 } = require("../config/validateToken");
 
-var {validateToken2}=require("../config/validateToken");
+// AUTH ROUTES
+router.post("/signupaxios", userController.doSignup);
+router.post("/loginaxios", userController.doLogin);
 
-//// signupp function
-
-router.post("/signupaxios",userController.doSignup)
-router.post("/loginaxios",userController.doLogin)
-
-
-
-//////////////customer/////////////
-
-module.exports=router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports = router;
