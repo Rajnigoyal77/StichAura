@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const express = require("express");
 const fileuploader = require("express-fileupload");
 const cors = require("cors");
@@ -11,34 +10,35 @@ const UserRouterReviews = require("./routers/UserRouterReviews");
 
 const { connectAtlasDB } = require("./config/dbatlas");
 
+// DB connect
 connectAtlasDB();
 
 const app = express();
 
-// ✅ middlewares
+// ---------------- CORS (KEEP FIRST) ----------------
+app.use(
+  cors({
+    origin: "https://stich-aura-1vwa.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
+  })
+);
+
+// 🔥 THIS IS THE FIX (IMPORTANT)
+app.options("*", cors());
+
+// ---------------- MIDDLEWARE ----------------
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileuploader());
 
-// ✅ CORS FIX (important)
-app.use(cors({
-  origin: "https://stich-aura-1vwa.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true
-}));
-
-app.options("*", cors());
-
-// ❌ REMOVE THIS (it is invalid and will crash)
-// api.post("/user/login", data);
-
-// ✅ routes
+// ---------------- ROUTES ----------------
 app.use("/user", userRouter);
 app.use("/customer", userRouterCus);
 app.use("/tailor", UserRouterTail);
 app.use("/review", UserRouterReviews);
 
-// test route
+// ---------------- TEST ----------------
 app.get("/", (req, res) => {
   res.send("Backend Successful 🚀");
 });
