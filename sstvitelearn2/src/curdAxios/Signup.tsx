@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -7,12 +6,12 @@ interface SignupForm {
   emailid: string;
   password: string;
   usertype: string;
-  
 }
 
-   export default function Signup() {
+export default function Signup() {
 
-     const navigate = useNavigate();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState<SignupForm>({
     emailid: "",
     password: "",
@@ -20,10 +19,13 @@ interface SignupForm {
   });
 
   const [errors, setErrors] = useState<Partial<SignupForm>>({});
+  const [showPassword, setShowPassword] = useState(false);
 
+  // HANDLE CHANGE
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+
     const { name, value } = e.target;
 
     setForm((prev) => ({
@@ -32,7 +34,9 @@ interface SignupForm {
     }));
   };
 
+  // VALIDATION
   const validate = (): boolean => {
+
     const newErrors: Partial<SignupForm> = {};
 
     if (!form.emailid) {
@@ -52,220 +56,203 @@ interface SignupForm {
     }
 
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
-      const [showPassword, setShowPassword] = useState(false);
+  // SUBMIT
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
 
+    e.preventDefault();
 
- 
-      ///////////signup button 1 step for click
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (!validate()) return;
 
-  e.preventDefault();
+    console.log(form);
 
-  if (!validate()) return;
+    let url =
+      "https://stich-aura.vercel.app/user/signupaxios";
 
-  console.log(form);
-let url = "https://stich-aura.vercel.app/user/signupaxios";
+    try {
 
-let response = await axios.post(url, form);
+      let response = await axios.post(url, form);
 
-console.log(response.data);
+      console.log("RESPONSE:", response.data);
 
-try {
-  let response = await axios.post(url, form);
+      if (response.data.status === true) {
 
-  console.log("RESPONSE:", response.data);
-  alert(JSON.stringify(response.data));
-} catch (error) {
-  console.log("ERROR:", error);
-}
+        alert("Signup Successful ✅");
 
+        navigate("/login");
 
+      } else {
 
+        alert(response.data.msg);
 
-};
-return (
-  <div className="min-h-screen w-full bg-[#111] text-white flex flex-col overflow-x-hidden">
+      }
 
-    {/* HEADER */}
-    <header className="w-full flex items-center justify-between px-4 sm:px-6 py-4 border-b border-gray-800">
+    } catch (error: any) {
 
-      {/* LOGO */}
-      <h1 className="text-xl sm:text-2xl font-bold">
-        Stich<span className="text-amber-400">Aura 🧵</span>
-      </h1>
+      console.log("ERROR:", error);
 
-      {/* BACK BUTTON */}
-      <button
-        onClick={() => navigate("/")}
-        className="bg-amber-400 hover:bg-amber-500 text-black px-4 py-2 rounded-lg font-semibold transition"
-      >
-        ← Back
-      </button>
+      alert("Signup Failed ❌");
+    }
+  };
 
-    </header>
+  return (
 
-    {/* CENTER AREA */}
-    <main className="flex-1 w-full flex items-center justify-center px-4 sm:px-6 relative">
+    <div className="min-h-screen w-full bg-[#111] text-white flex flex-col overflow-x-hidden">
 
-      {/* BACKGROUND GLOW */}
-      <div className="absolute w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] bg-amber-400/20 blur-3xl rounded-full top-10 left-1/2 -translate-x-1/2"></div>
+      {/* HEADER */}
+      <header className="w-full flex items-center justify-between px-4 sm:px-6 py-4 border-b border-gray-800">
 
-      <div className="absolute w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] bg-amber-400/10 blur-3xl rounded-full bottom-10 right-10"></div>
+        <h1 className="text-xl sm:text-2xl font-bold">
+          Stich<span className="text-amber-400">Aura 🧵</span>
+        </h1>
 
-      {/* SIGNUP CARD */}
-      <div
-        className="relative w-full max-w-md sm:max-w-lg mx-auto bg-[#1a1a1a]/90 backdrop-blur-lg
-        border border-gray-700 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 z-10"
-      >
+        <button
+          onClick={() => navigate("/")}
+          className="bg-amber-400 hover:bg-amber-500 text-black px-4 py-2 rounded-lg font-semibold transition"
+        >
+          ← Back
+        </button>
 
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-2">
-          Create Account
-        </h2>
+      </header>
 
-        <p className="text-gray-400 text-center mb-6 sm:mb-8 text-sm sm:text-base">
-          Join StitchAura Fashion Studio
-        </p>
+      {/* MAIN */}
+      <main className="flex-1 w-full flex items-center justify-center px-4 sm:px-6 relative">
 
-        {/* FORM */}
-        <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+        <div className="absolute w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] bg-amber-400/20 blur-3xl rounded-full top-10 left-1/2 -translate-x-1/2"></div>
 
-          {/* EMAIL */}
-          <div>
+        <div className="absolute w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] bg-amber-400/10 blur-3xl rounded-full bottom-10 right-10"></div>
 
-            <label className="block text-sm text-gray-300 mb-2">
-              Email
-            </label>
+        {/* CARD */}
+        <div
+          className="relative w-full max-w-md sm:max-w-lg mx-auto bg-[#1a1a1a]/90 backdrop-blur-lg
+          border border-gray-700 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-10 z-10"
+        >
 
-            <input
-              type="email"
-              name="emailid"
-              value={form.emailid}
-              onChange={handleChange}
-              className="w-full px-4 sm:px-5 py-3 rounded-xl bg-[#111] border border-gray-700
-              text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400 outline-none"
-            />
+          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-2">
+            Create Account
+          </h2>
 
-            {errors.emailid && (
-              <p className="text-red-400 text-sm mt-1">
-                {errors.emailid}
-              </p>
-            )}
+          <p className="text-gray-400 text-center mb-6 sm:mb-8 text-sm sm:text-base">
+            Join StitchAura Fashion Studio
+          </p>
 
-          </div>
+          {/* FORM */}
+          <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
 
-          {/* PASSWORD
-          <div>
+            {/* EMAIL */}
+            <div>
 
-            <label className="block text-sm text-gray-300 mb-2">
-              Password
-            </label>
+              <label className="block text-sm text-gray-300 mb-2">
+                Email
+              </label>
 
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className="w-full px-4 sm:px-5 py-3 rounded-xl bg-[#111] border border-gray-700
-              text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400 outline-none"
-            />
+              <input
+                type="email"
+                name="emailid"
+                value={form.emailid}
+                onChange={handleChange}
+                className="w-full px-4 sm:px-5 py-3 rounded-xl bg-[#111] border border-gray-700
+                text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400 outline-none"
+              />
 
-            {errors.password && (
-              <p className="text-red-400 text-sm mt-1">
-                {errors.password}
-              </p>
-            )}
+              {errors.emailid && (
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.emailid}
+                </p>
+              )}
 
-          </div> */}
+            </div>
 
-{/* PASSWORD */}
-<div>
+            {/* PASSWORD */}
+            <div>
 
-  <label className="block text-sm text-gray-300 mb-2">
-    Password
-  </label>
+              <label className="block text-sm text-gray-300 mb-2">
+                Password
+              </label>
 
-  <div className="relative">
+              <div className="relative">
 
-    <input
-      type={showPassword ? "text" : "password"}
-      name="password"
-      value={form.password}
-      onChange={handleChange}
-      className="w-full px-4 sm:px-5 py-3 rounded-xl bg-[#111] border border-gray-700
-      text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400 outline-none"
-    />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  className="w-full px-4 sm:px-5 py-3 rounded-xl bg-[#111] border border-gray-700
+                  text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400 outline-none"
+                />
 
-    <button
-      type="button"
-      onClick={() => setShowPassword(!showPassword)}
-      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
-    >
-      {showPassword ? "🙈" : "👁"}
-    </button>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+                >
+                  {showPassword ? "🙈" : "👁"}
+                </button>
 
-  </div>
+              </div>
 
-  {errors.password && (
-    <p className="text-red-400 text-sm mt-1">
-      {errors.password}
-    </p>
-  )}
+              {errors.password && (
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.password}
+                </p>
+              )}
 
-</div>
+            </div>
 
+            {/* USER TYPE */}
+            <div>
 
+              <label className="block text-sm text-gray-300 mb-2">
+                User Type
+              </label>
 
-          {/* USER TYPE */}
-          <div>
+              <select
+                name="usertype"
+                value={form.usertype}
+                onChange={handleChange}
+                className="w-full px-4 sm:px-5 py-3 rounded-xl bg-[#111] border border-gray-700
+                text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400 outline-none"
+              >
 
-            <label className="block text-sm text-gray-300 mb-2">
-              User Type
-            </label>
+                <option value="">Select</option>
+                <option value="Tailor">Tailor</option>
+                <option value="Customer">Customer</option>
 
-            <select
-              name="usertype"
-              value={form.usertype}
-              onChange={handleChange}
-              className="w-full px-4 sm:px-5 py-3 rounded-xl bg-[#111] border border-gray-700
-              text-white focus:border-amber-400 focus:ring-2 focus:ring-amber-400 outline-none"
+              </select>
+
+              {errors.usertype && (
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.usertype}
+                </p>
+              )}
+
+            </div>
+
+            {/* BUTTON */}
+            <button
+              type="submit"
+              className="w-full bg-amber-400 hover:bg-amber-500 transition
+              py-3 rounded-xl font-semibold text-base sm:text-lg text-black"
             >
+              Signup
+            </button>
 
-              <option value="">Select</option>
-              <option value="Tailor">Tailor</option>
-              <option value="Custumer">Custumer</option>
+          </form>
 
-            </select>
+        </div>
 
-            {errors.usertype && (
-              <p className="text-red-400 text-sm mt-1">
-                {errors.usertype}
-              </p>
-            )}
+      </main>
 
-          </div>
+      {/* FOOTER */}
+      <footer className="w-full text-center py-4 border-t border-gray-800 text-gray-400 text-xs sm:text-sm">
+        © 2026 StitchAura. All rights reserved.
+      </footer>
 
-          {/* BUTTON */}
-          <button
-            type="submit"
-            className="w-full bg-amber-400 hover:bg-amber-500 transition
-            py-3 rounded-xl font-semibold text-base sm:text-lg text-black"
-          >
-            Signup
-          </button>
-
-        </form>
-      </div>
-
-    </main>
-
-    {/* FOOTER */}
-    <footer className="w-full text-center py-4 border-t border-gray-800 text-gray-400 text-xs sm:text-sm">
-      © 2026 StitchAura. All rights reserved.
-    </footer>
-
-  </div>
-)
-   };
+    </div>
+  );
+}
