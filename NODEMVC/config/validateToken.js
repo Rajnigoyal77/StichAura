@@ -93,7 +93,7 @@ module.exports = { validateToken2 };
 //     let actualToken = ary[1];
 
 //     try {
-//         let TokenValidObj = jwt.verify(actualToken, process.env.sec_key);
+//         let TokenValidObj = jwt.verify(actualToken, process.env.SEC_KEY);
 
 //         req.user = TokenValidObj;   // 🔥 IMPORTANT
 

@@ -54,7 +54,7 @@ Welcome to StichAura ✨`
 
      let jtoken = jwt.sign(
         { emailid: req.body.emailid },
-        process.env.sec_key,
+        process.env.SEC_KEY,
         { expiresIn: "1h" }
     );
 
@@ -122,7 +122,7 @@ async function doLogin(req, resp) {
         emailid: user.emailid,
         role: user.usertype
       },
-      process.env.sec_key,
+      process.env.SEC_KEY,
       { expiresIn: "7d" }
     );
 
