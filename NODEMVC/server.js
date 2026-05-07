@@ -6,32 +6,31 @@ const fileUpload = require("express-fileupload");
 
 const app = express();
 
+// ROUTERS
+const userRouter = require("./routers/UserRouter");
+const userRouterCus = require("./routers/UserRouterCus");
+const UserRouterTail = require("./routers/UserRouterTail");
+const UserRouterReviews = require("./routers/UserRouterReviews");
+
 // DB
 const { connectAtlasDB } = require("./config/dbatlas");
 connectAtlasDB();
 
-// --------------------
-// 🔥 ONLY ONE CORS SYSTEM
-// --------------------
-app.use(cors({
-  origin: "https://stich-aura-1vwa.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
-
-// 🔥 HANDLE PREFLIGHT ONLY ONCE
-app.options("*", cors());
-
-// --------------------
 // Middleware
-// --------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
-// --------------------
+// CORS
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
+app.options("*", cors());
 // ROUTES
-// --------------------
 app.use("/user", userRouter);
 app.use("/customer", userRouterCus);
 app.use("/tailor", UserRouterTail);
@@ -39,10 +38,11 @@ app.use("/review", UserRouterReviews);
 
 // TEST
 app.get("/", (req, res) => {
-  res.json({
+  res.status(200).json({
     success: true,
     message: "Backend Running 🚀"
   });
 });
 
+// EXPORT
 module.exports = app;
