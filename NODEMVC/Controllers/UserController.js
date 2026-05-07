@@ -22,15 +22,13 @@ var UserColRef=require("../models/model_user");///export model
     let otp = Math.floor(100000 + Math.random() * 900000);
     console.log("Generated OTP:", otp);
 
-    // 👉 req.body me OTP add karo
     req.body.otp = otp;
     req.body.isVerified = false;
 
     let objUserColRef = new UserColRef(req.body);
-
-    // 👉 Ab OTP ke saath save hoga
     let doc = await objUserColRef.save();
 
+    // mail (optional - agar error de raha ho toh comment kar dena)
     let transporter = nodemailer.createTransport({
         service:"gmail",
         auth:{
@@ -38,32 +36,21 @@ var UserColRef=require("../models/model_user");///export model
             pass:"laavjabmmpfbxyyb"
         }
     });
-let mailOptions = {
-    from: "goyaljanvi77196@gmail.com",
-    to: req.body.emailid,
-    subject: "Signup Successful",
-    
-    text: `Hello User,
-    
- Congrats! You have successfully signed up as ${req.body.usertype}.
 
-Welcome to StichAura ✨`
-};
+    let mailOptions = {
+        from: "goyaljanvi77196@gmail.com",
+        to: req.body.emailid,
+        subject: "Signup Successful",
+        text: `Congrats! You have successfully signed up as ${req.body.usertype}`
+    };
 
     await transporter.sendMail(mailOptions);
 
-     let jtoken = jwt.sign(
-        { emailid: req.body.emailid },
-        process.env.sec_key,
-        { expiresIn: "1h" }
-    );
-
-    res.status(200).json({
+    return res.status(200).json({
         status:true,
-        msg:"Record saved & OTP sent",
-        doc:doc,
-        token:jtoken   // 🔥 SEND TOKEN
-    });  
+        msg:"Signup Successful",
+        doc:doc
+    });
 
  }
  catch(err){
@@ -74,7 +61,6 @@ Welcome to StichAura ✨`
     });
  }
 }
-
          
 //***************Login*************************** */
 async function doLogin(req, resp) {
@@ -122,7 +108,7 @@ async function doLogin(req, resp) {
         emailid: user.emailid,
         role: user.usertype
       },
-      process.env.sec_key,
+      process.env.SEC_KEY,
       { expiresIn: "7d" }
     );
 
