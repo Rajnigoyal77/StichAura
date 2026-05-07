@@ -6,6 +6,12 @@ const fileUpload = require("express-fileupload");
 
 const app = express();
 
+// ROUTERS
+const userRouter = require("./routers/UserRouter");
+const userRouterCus = require("./routers/UserRouterCus");
+const UserRouterTail = require("./routers/UserRouterTail");
+const UserRouterReviews = require("./routers/UserRouterReviews");
+
 // DB
 const { connectAtlasDB } = require("./config/dbatlas");
 connectAtlasDB();
@@ -23,11 +29,6 @@ app.use(cors({
 }));
 
 // ROUTES
-const userRouter = require("./routers/UserRouter");
-const userRouterCus = require("./routers/UserRouterCus");
-const UserRouterTail = require("./routers/UserRouterTail");
-const UserRouterReviews = require("./routers/UserRouterReviews");
-
 app.use("/user", userRouter);
 app.use("/customer", userRouterCus);
 app.use("/tailor", UserRouterTail);
