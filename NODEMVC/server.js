@@ -1,7 +1,7 @@
 require("dotenv").config();
 var express = require("express");
 var fileuploader = require("express-fileupload");
-
+import cors from "cors";
 
 var userRouter = require("./routers/UserRouter");
 var userRouterCus = require("./routers/UserRouterCus");
@@ -27,12 +27,21 @@ var cors = require("cors");
 
 
 
-//const cors = require("cors");
-
 app.use(cors({
-  origin: "http://localhost:5173", // your frontend URL
+  origin: "https://stich-aura-1vwa.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
 }));
+
+app.options("*", cors());
+
+
+
+
+
+
+
+api.post("/user/login", data);
 app.use(fileuploader());
 
 app.use("/user", userRouter);
@@ -42,7 +51,7 @@ app.use("/review", UserRouterReviews);
 //app.use("/tailor", UserRouterFind);
 
 app.get("/", (req, res) => {
-  res.send("Backend Running Successfully");
+  res.send("Backend  Successfull");
 });
 
 module.exports = app;
@@ -96,7 +105,7 @@ module.exports = app;
 // var cors = require("cors");
 
 // app.use(cors({
-//   origin: "http://localhost:5173",
+
 //   methods: ["GET", "POST"],
 //   credentials: true
 // }));

@@ -36,7 +36,7 @@ if (formData.password.trim() === "") {
   return;
 }
 
-    let url = "https://stich-aura-backend-4dwjubqgt-rajnigoyal77s-projects.vercel.app/user/loginaxiosstich-aura-backend.vercel.app//user/loginaxios";
+   let url = "https://stich-aura.vercel.app/user/loginaxios";
 
     try {
       let response = await axios.post(url, formData);

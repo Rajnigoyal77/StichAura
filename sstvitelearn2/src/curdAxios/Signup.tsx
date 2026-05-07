@@ -68,7 +68,7 @@ interface SignupForm {
 
   console.log(form);
 
-  let url = "https://stich-aura-backend-4dwjubqgt-rajnigoyal77s-projects.vercel.app/user/loginaxiosstich-aura-backend.vercel.app//user/signupaxios";
+  let url = "https://stich-aura.vercel.app/user/signupaxios";
 
   try {
 

@@ -28,7 +28,7 @@ async function doGetCities() {
 
     setSelectedSpeciality("");
 
-    let url = "https://stich-aura-backend-4dwjubqgt-rajnigoyal77s-projects.vercel.app/user/loginaxiosstich-aura-backend.vercel.app/tailor/getspeciality";
+    let url = "https://stich-aura-backend.vercel.app//tailor/getspeciality";
 
     let response = await axios.post(
       url,
@@ -43,7 +43,7 @@ async function doGetCities() {
 
   async function findRecord() {
 
-    let url = "https://stich-aura-backend-4dwjubqgt-rajnigoyal77s-projects.vercel.app/user/loginaxiosstich-aura-backend.vercel.app/tailor/tailorfullrecord";
+    let url = "https://stich-aura-backend.vercel.app//tailor/tailorfullrecord";
 
     let response3 = await axios.post(
       url,
