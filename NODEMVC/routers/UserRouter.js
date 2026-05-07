@@ -4,7 +4,8 @@ var router=app.Router();
 
 //////////////jsx
 // var {valdateToken2}=require("../config/validatetoken");
-var {valdateToken2}=require("../config/validateToken");
+
+var {validateToken2}=require("../config/validateToken");
 
 //// signupp function
 

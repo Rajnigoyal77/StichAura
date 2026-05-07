@@ -14,7 +14,7 @@ var express = require("express");
 var router = express.Router();
 
 var userController = require("../Controllers/UserControllerReviews");
-var { validateToken2 } = require("../config/validatetoken");
+var { validateToken2 } = require("../config/validateToken");
 
 // 🔐 PROTECTED ROUTE (JWT REQUIRED)
 router.post(
