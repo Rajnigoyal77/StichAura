@@ -1,6 +1,7 @@
+require("dotenv").config();
 var express = require("express");
 var fileuploader = require("express-fileupload");
-require("dotenv").config();
+
 
 var userRouter = require("./routers/UserRouter");
 var userRouterCus = require("./routers/UserRouterCus");

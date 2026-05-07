@@ -1,27 +1,17 @@
-let mongoose=require("mongoose")
+let mongoose = require("mongoose")
 
-function connectoMongoDB()
-{
+function connectoMongoDB() {
 
-let url="mongodb://localhost:27017/2026jan"
-mongoose.connect(url).then(()=>
-{
-
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
 
     console.log("Connected to MongoDB")
-}).catch((err)=>
-{
 
+}).catch((err) => {
 
-   console.log(err) 
+   console.log(err)
+
 })
 }
 
-module.exports={connectoMongoDB}
-
-
-
-
-
-
-
+module.exports = { connectoMongoDB }
