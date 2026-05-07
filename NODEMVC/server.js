@@ -1,32 +1,26 @@
 require("dotenv").config();
-var express = require("express");
-var fileuploader = require("express-fileupload");
-import cors from "cors";
 
-var userRouter = require("./routers/UserRouter");
-var userRouterCus = require("./routers/UserRouterCus");
+const express = require("express");
+const fileuploader = require("express-fileupload");
+const cors = require("cors");
+
+const userRouter = require("./routers/UserRouter");
+const userRouterCus = require("./routers/UserRouterCus");
 const UserRouterTail = require("./routers/UserRouterTail");
 const UserRouterReviews = require("./routers/UserRouterReviews");
 
-const {connectAtlasDB} = require("./config/dbatlas");
+const { connectAtlasDB } = require("./config/dbatlas");
 
 connectAtlasDB();
 
-var app = express();
+const app = express();
 
+// ✅ middlewares
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(fileuploader());
 
-// var cors = require("cors");
-// app.use(cors());   // ✅ keep only this
-var cors = require("cors");
-// app.use(cors({
-//   origin: "*"
-//   
-// }));
-
-
-
+// ✅ CORS FIX (important)
 app.use(cors({
   origin: "https://stich-aura-1vwa.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -35,92 +29,18 @@ app.use(cors({
 
 app.options("*", cors());
 
+// ❌ REMOVE THIS (it is invalid and will crash)
+// api.post("/user/login", data);
 
-
-
-
-
-
-api.post("/user/login", data);
-app.use(fileuploader());
-
+// ✅ routes
 app.use("/user", userRouter);
 app.use("/customer", userRouterCus);
 app.use("/tailor", UserRouterTail);
 app.use("/review", UserRouterReviews);
-//app.use("/tailor", UserRouterFind);
 
+// test route
 app.get("/", (req, res) => {
-  res.send("Backend  Successfull");
+  res.send("Backend Successful 🚀");
 });
 
 module.exports = app;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var express = require("express");
-// var fileuploader = require("express-fileupload");
-// require("dotenv").config();
-
-// var userRouter = require("./routers/UserRouter");
-// var userRouterCus = require("./routers/UserRouterCus");  // ✅ alag variable name
-
-// const UserRouterTail = require("./routers/UserRouterTail");
-// const UserRouterReviews = require("./routers/UserRouterReviews");
-// // const { connectoMongoDB } = require("./config/dbconnect");
-// const {connectAtlasDB} = require("./config/dbatlas");
-// connectAtlasDB();
-
-// var app = express();
-
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());   // ✅ important for axios JSON
-
-// var cors = require("cors");
-
-// app.use(cors({
-
-//   methods: ["GET", "POST"],
-//   credentials: true
-// }));
-
-// app.use(fileuploader());
-// app.use(cors());
-
-// //connectoMongoDB();
-
-// app.use("/user", userRouter);
-// app.use("/customer", userRouterCus);  // ✅ correct variable
-
-// app.use("/tailor", UserRouterTail);
-// app.use("/review", UserRouterReviews);
-
-// app.listen(2007, () => {
-//   console.log("Server Started on :" + 2007);
-// });
