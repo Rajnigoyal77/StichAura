@@ -15,141 +15,141 @@ var UserColRef=require("../models/model_user");///export model
 
 /////////////////thenconnect to mongo****************
 /////////////////Signup ??????????????????????
-async function doSignup(req, res) {
-  try {
-    console.log("BODY =>", req.body);
+  async function doSignup(req,res)
+{
+ try{
 
-    const email = req.body.emailid?.toLowerCase().trim();
-    const pass = req.body.password?.trim();
-    const usertype = req.body.usertype;
+    let otp = Math.floor(100000 + Math.random() * 900000);
+    console.log("Generated OTP:", otp);
 
-    if (!email || !pass || !usertype) {
-      return res.status(400).json({
-        status: false,
-        msg: "All fields required"
-      });
-    }
+    // 👉 req.body me OTP add karo
+    req.body.otp = otp;
+    req.body.isVerified = false;
 
-    const existingUser = await UserColRef.findOne({ emailid: email });
+    let objUserColRef = new UserColRef(req.body);
 
-    if (existingUser) {
-      return res.status(400).json({
-        status: false,
-        msg: "User already exists"
-      });
-    }
+    // 👉 Ab OTP ke saath save hoga
+    let doc = await objUserColRef.save();
 
-    const otp = Math.floor(100000 + Math.random() * 900000);
-
-    const newUser = new UserColRef({
-      emailid: email,
-      password: pass,
-      usertype,
-      otp,
-      isVerified: false
-    });
-
-    const doc = await newUser.save();
-
-    // ⚠️ email NOT blocking signup (important fix)
-    try {
-      let transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
+    let transporter = nodemailer.createTransport({
+        service:"gmail",
+        auth:{
+            user:"goyaljanvi77196@gmail.com",
+            pass:"laavjabmmpfbxyyb"
         }
-      });
+    });
+let mailOptions = {
+    from: "goyaljanvi77196@gmail.com",
+    to: req.body.emailid,
+    subject: "Signup Successful",
+    
+    text: `Hello User,
+    
+ Congrats! You have successfully signed up as ${req.body.usertype}.
 
-      await transporter.sendMail({
-        from: process.env.EMAIL_USER,
-        to: email,
-        subject: "Signup Successful",
-        text: `Welcome to StitchAura ✨`
-      });
+Welcome to StichAura ✨`
+};
 
-    } catch (mailErr) {
-      console.log("MAIL ERROR (ignored):", mailErr.message);
-    }
+    await transporter.sendMail(mailOptions);
 
-    const token = jwt.sign(
-      { emailid: email },
-      process.env.SEC_KEY || "default_secret",
-      { expiresIn: "1h" }
+     let jtoken = jwt.sign(
+        { emailid: req.body.emailid },
+        process.env.sec_key,
+        { expiresIn: "1h" }
     );
 
-    return res.status(200).json({
-      status: true,
-      msg: "Signup Successful",
-      doc,
-      token
-    });
+    res.status(200).json({
+        status:true,
+        msg:"Record saved & OTP sent",
+        doc:doc,
+        token:jtoken   // 🔥 SEND TOKEN
+    });  
 
-  } catch (err) {
-    console.log("SIGNUP ERROR =>", err);
-
-    return res.status(500).json({
-      status: false,
-      msg: err.message
+ }
+ catch(err){
+    console.log("ERROR =>", err); 
+    res.status(500).json({
+        status:false,
+        msg:err.message
     });
-  }
-}    
-//async function doLogin(req, res) {
+ }
+}
+
+         
+//***************Login*************************** */
+async function doLogin(req, resp) {
   try {
-    console.log("LOGIN HIT", req.body);
+    console.log("LOGIN HIT");
+    console.log("DATA:", req.body);
 
-    const email = req.body.emailid?.toLowerCase().trim();
-    const pass = req.body.password?.trim();
+    // ✅ sanitize input
+    let email = req.body.emailid?.toLowerCase().trim();
+    let pass = req.body.password?.trim();
 
+    // ✅ validation
     if (!email || !pass) {
-      return res.status(400).json({
+      return resp.json({
         status: false,
-        msg: "Email & Password required"
+        msg: "Email and Password are required"
       });
     }
 
-    const user = await UserColRef.findOne({ emailid: email });
+    // ✅ find user
+    let user = await UserColRef.findOne({ emailid: email });
 
+    console.log("USER FROM DB:", user);
+
+    // ❌ user not found
     if (!user) {
-      return res.status(404).json({
+      return resp.json({
         status: false,
-        msg: "User not found"
+        msg: "Invalid Email"
       });
     }
 
+    // ❌ wrong password
     if (user.password !== pass) {
-      return res.status(401).json({
+      return resp.json({
         status: false,
-        msg: "Wrong password"
+        msg: "Wrong Password"
       });
     }
 
-    const token = jwt.sign(
+    // ✅ LOGIN SUCCESS
+    let token = jwt.sign(
       {
         id: user._id,
         emailid: user.emailid,
         role: user.usertype
       },
-      process.env.SEC_KEY || "default_secret",
+      process.env.sec_key,
       { expiresIn: "7d" }
     );
 
-    return res.status(200).json({
-      status: true,
-      msg: "Login Successful",
-      token,
-      user
-    });
+   
+    return resp.json({
+  status: true,
+  msg: "Login Successful ✅",
+
+  token: token,
+
+  user: {
+    _id: user._id,
+    emailid: user.emailid,
+    usertype: user.usertype
+  }
+});
 
   } catch (err) {
     console.log("LOGIN ERROR:", err);
 
-    return res.status(500).json({
+    return resp.status(500).json({
       status: false,
-      msg: err.message
+      msg: "Server Error",
+      error: err.message
     });
   }
-
+}
 
 
 module.exports={doSignup,doLogin}
