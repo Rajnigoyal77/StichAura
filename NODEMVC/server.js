@@ -1,4 +1,4 @@
-require("dotenv").config();
+//require("dotenv").config();
 const express = require("express");
 const fileuploader = require("express-fileupload");
 const cors = require("cors");
@@ -14,25 +14,18 @@ connectAtlasDB();
 
 const app = express();
 
-// ---------------- MIDDLEWARE ----------------
+// ---------------- BODY ----------------
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileuploader());
 
-// ---------------- CORS FIX ----------------
-app.use(
-  cors({
-    origin: [
-      "https://stich-aura-1vwa.vercel.app",
-      "https://stich-aura.vercel.app"
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-  })
-);
+// ---------------- CORS ----------------
+app.use(cors({
+  origin: "https://stich-aura-1vwa.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true
+}));
 
-// 🔥 IMPORTANT FIX (NO "*")
-app.options("*", cors());
 
 // ---------------- ROUTES ----------------
 app.use("/user", userRouter);
@@ -42,7 +35,7 @@ app.use("/review", UserRouterReviews);
 
 // ---------------- TEST ----------------
 app.get("/", (req, res) => {
-  res.json({ message: "Backend Working 🚀" });
+  res.json({ message: "Backend working 🚀" });
 });
 
 module.exports = app;
