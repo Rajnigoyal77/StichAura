@@ -10,53 +10,28 @@ const app = express();
 const { connectAtlasDB } = require("./config/dbatlas");
 connectAtlasDB();
 
-// 🔥 CORS FIRST
-// app.use(cors({
-//   origin: "https://stich-aura-1vwa.vercel.app",
-//   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-//   allowedHeaders: ["Content-Type", "Authorization"],
-//   credentials: true
-// }));
-
-// // 🔥 IMPORTANT: preflight handle
-// app.options("*", cors());
-
-const cors = require("cors");
-
-const corsOptions = {
+// --------------------
+// 🔥 ONLY ONE CORS SYSTEM
+// --------------------
+app.use(cors({
   origin: "https://stich-aura-1vwa.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-};
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
-app.use(cors(corsOptions));
+// 🔥 HANDLE PREFLIGHT ONLY ONCE
+app.options("*", cors());
 
-// 🔥 MUST for preflight
-app.options("*", cors(corsOptions));
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://stich-aura-1vwa.vercel.app");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-
-  next();
-});
-
-
-
-
-
+// --------------------
 // Middleware
+// --------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
-// ROUTERS
+// --------------------
+// ROUTES
+// --------------------
 app.use("/user", userRouter);
 app.use("/customer", userRouterCus);
 app.use("/tailor", UserRouterTail);
@@ -64,7 +39,7 @@ app.use("/review", UserRouterReviews);
 
 // TEST
 app.get("/", (req, res) => {
-  res.status(200).json({
+  res.json({
     success: true,
     message: "Backend Running 🚀"
   });
