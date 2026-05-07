@@ -17,13 +17,20 @@ var UserColRef=require("../models/model_user");///export model
 /////////////////Signup ??????????????????????
 async function doSignup(req, res) {
   try {
-
     console.log("BODY =>", req.body);
 
-    let email = req.body.emailid?.toLowerCase().trim();
+    const email = req.body.emailid?.toLowerCase().trim();
+    const pass = req.body.password?.trim();
+    const usertype = req.body.usertype;
 
-    // CHECK EXISTING USER
-    let existingUser = await UserColRef.findOne({ emailid: email });
+    if (!email || !pass || !usertype) {
+      return res.status(400).json({
+        status: false,
+        msg: "All fields required"
+      });
+    }
+
+    const existingUser = await UserColRef.findOne({ emailid: email });
 
     if (existingUser) {
       return res.status(400).json({
@@ -32,145 +39,117 @@ async function doSignup(req, res) {
       });
     }
 
-    // OTP
-    let otp = Math.floor(100000 + Math.random() * 900000);
+    const otp = Math.floor(100000 + Math.random() * 900000);
 
-    req.body.emailid = email;
-    req.body.otp = otp;
-    req.body.isVerified = false;
-
-    // SAVE USER
-    let objUserColRef = new UserColRef(req.body);
-
-    let doc = await objUserColRef.save();
-
-    console.log("USER SAVED");
-
-    // MAIL
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "goyaljanvi77196@gmail.com",
-        pass: "laavjabmmpfbxyyb"
-      }
+    const newUser = new UserColRef({
+      emailid: email,
+      password: pass,
+      usertype,
+      otp,
+      isVerified: false
     });
 
-    let mailOptions = {
-      from: "goyaljanvi77196@gmail.com",
-      to: req.body.emailid,
-      subject: "Signup Successful",
-      text: `Hello User,
+    const doc = await newUser.save();
 
-Congrats! You have successfully signed up as ${req.body.usertype}.
+    // ⚠️ email NOT blocking signup (important fix)
+    try {
+      let transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        }
+      });
 
-Welcome to StichAura ✨`
-    };
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Signup Successful",
+        text: `Welcome to StitchAura ✨`
+      });
 
-    await transporter.sendMail(mailOptions);
+    } catch (mailErr) {
+      console.log("MAIL ERROR (ignored):", mailErr.message);
+    }
 
-    console.log("MAIL SENT");
-
-    // TOKEN
-    let jtoken = jwt.sign(
-      { emailid: req.body.emailid },
-      process.env.SEC_KEY,
+    const token = jwt.sign(
+      { emailid: email },
+      process.env.SEC_KEY || "default_secret",
       { expiresIn: "1h" }
     );
 
     return res.status(200).json({
       status: true,
       msg: "Signup Successful",
-      doc: doc,
-      token: jtoken
+      doc,
+      token
     });
 
   } catch (err) {
-
     console.log("SIGNUP ERROR =>", err);
 
     return res.status(500).json({
       status: false,
-      msg: err.message,
-      error: err
+      msg: err.message
     });
   }
-}
-
-         
-//***************Login*************************** */
-async function doLogin(req, resp) {
+}    
+//async function doLogin(req, res) {
   try {
-    console.log("LOGIN HIT");
-    console.log("DATA:", req.body);
+    console.log("LOGIN HIT", req.body);
 
-    // ✅ sanitize input
-    let email = req.body.emailid?.toLowerCase().trim();
-    let pass = req.body.password?.trim();
+    const email = req.body.emailid?.toLowerCase().trim();
+    const pass = req.body.password?.trim();
 
-    // ✅ validation
     if (!email || !pass) {
-      return resp.json({
+      return res.status(400).json({
         status: false,
-        msg: "Email and Password are required"
+        msg: "Email & Password required"
       });
     }
 
-    // ✅ find user
-    let user = await UserColRef.findOne({ emailid: email });
+    const user = await UserColRef.findOne({ emailid: email });
 
-    console.log("USER FROM DB:", user);
-
-    // ❌ user not found
     if (!user) {
-      return resp.json({
+      return res.status(404).json({
         status: false,
-        msg: "Invalid Email"
+        msg: "User not found"
       });
     }
 
-    // ❌ wrong password
     if (user.password !== pass) {
-      return resp.json({
+      return res.status(401).json({
         status: false,
-        msg: "Wrong Password"
+        msg: "Wrong password"
       });
     }
 
-    // ✅ LOGIN SUCCESS
-    let token = jwt.sign(
+    const token = jwt.sign(
       {
         id: user._id,
         emailid: user.emailid,
         role: user.usertype
       },
-      process.env.SEC_KEY,
+      process.env.SEC_KEY || "default_secret",
       { expiresIn: "7d" }
     );
 
-   
-    return resp.json({
-  status: true,
-  msg: "Login Successful ✅",
-
-  token: token,
-
-  user: {
-    _id: user._id,
-    emailid: user.emailid,
-    usertype: user.usertype
-  }
-});
+    return res.status(200).json({
+      status: true,
+      msg: "Login Successful",
+      token,
+      user
+    });
 
   } catch (err) {
     console.log("LOGIN ERROR:", err);
 
-    return resp.status(500).json({
+    return res.status(500).json({
       status: false,
-      msg: "Server Error",
-      error: err.message
+      msg: err.message
     });
   }
-}
+
 
 
 module.exports={doSignup,doLogin}
