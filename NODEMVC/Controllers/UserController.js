@@ -63,12 +63,7 @@ Welcome to StichAura ✨`
         msg:"Record saved & OTP sent",
         doc:doc,
         token:jtoken   // 🔥 SEND TOKEN
-    });
-
-
-   
-
-    
+    });  
 
  }
  catch(err){
