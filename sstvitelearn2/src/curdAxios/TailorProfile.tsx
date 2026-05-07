@@ -132,7 +132,7 @@ async function handleExtractAadhar() {
   try {
 
     const response = await axios.post(
-      "https://stich-aura-backend.vercel.app/tailor/extractaadhaar",
+      "https://stich-aura.vercel.app/tailor/extractaadhaar",
       formData,
       {
         headers: {
@@ -171,11 +171,11 @@ async function handleExtractAadhar() {
 }
   // ----------------- SAVE -----------------
  const handleSubmit = async () => {
-  
+  //e.preventDefault();
 
   const token = localStorage.getItem("token");
 
-  let url = "https://stich-aura-backend.vercel.app/tailor/tailorprofilesignup";
+  let url = "https://stich-aura.vercel.app/tailor/tailorprofilesignup";
 
   let frmData = new FormData();
 
@@ -216,7 +216,7 @@ async function handleExtractAadhar() {
 
   const token = localStorage.getItem("token");
 
-  const url = "https://stich-aura-backend.vercel.app/tailor/tailorprofileupdate";
+  const url = "https://stich-aura.vercel.app/tailor/tailorprofileupdate";
 
   let frmData = new FormData();
 
@@ -247,7 +247,7 @@ async function doFind() {
 
   const token = localStorage.getItem("token");
 
-  let url = "https://stich-aura-backend.vercel.app/tailor/tailorprofilesearch";
+  let url = "https://stich-aura.vercel.app/tailor/tailorprofilesearch";
 
   let response2 = await axios.post(
     url,
@@ -300,7 +300,7 @@ return (
     {/* HEADER */}
     <header className="w-full flex justify-between items-center px-6 py-4 border-b border-gray-800">
       <h1 className="text-2xl font-bold">
-        Stich<span className="text-amber-400">Aura</span>
+        Stich<span className="text-pink-500">Aura</span>
       </h1>
 
       <button
@@ -407,8 +407,7 @@ return (
               />
 
             </label> */}
-
-            {/* AADHAR UPLOAD CLICKABLE */}
+                 {/* AADHAR UPLOAD CLICKABLE */}
 <label className="block cursor-pointer">
 
   <div className="w-full p-2 border border-gray-700 rounded-lg text-center bg-[#111]">
@@ -434,13 +433,12 @@ return (
     />
   </div>
 )}
-
             <button
               type="button"
               onClick={handleExtractAadhar}
               className="w-full bg-purple-600 hover:bg-purple-700 py-2 rounded-lg text-black"
             >
-              Auto Fill Aadhaar
+              Verify Aadhaar
             </button>
 
           </div>
@@ -527,15 +525,12 @@ return (
     {/* ================= BUTTONS (REDUCED WIDTH) ================= */}
     <div className="flex justify-center gap-3 p-4">
 
-    
+      <button type="submit"
+        className="w-28 bg-pink-600 py-2 rounded-lg text-black text-sm"
+      >
+        Save
+      </button>
 
-  <button
-    type="button"
-    onClick={handleSubmit}
-    className="w-28 bg-pink-600 py-2 rounded-lg text-black text-sm"
-  >
-    Save
-  </button>
       <button type="button"
         onClick={handleUpdate}
         className="w-28 bg-green-600 py-2 rounded-lg text-black text-sm"

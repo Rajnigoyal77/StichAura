@@ -11,7 +11,7 @@ function FindTailor() {
   const [tailorList, setTailorList] = useState<any[]>([]);
 async function doGetCities() {
 
-  let url = "https://stich-aura-backend.vercel.app/tailor/getcities";
+  let url = "https://stich-aura.vercel.app/tailor/getcities";
 
   let response = await axios.post(url);
 
@@ -28,7 +28,7 @@ async function doGetCities() {
 
     setSelectedSpeciality("");
 
-    let url = "https://stich-aura-backend.vercel.app//tailor/getspeciality";
+    let url = "https://stich-aura.vercel.app//tailor/getspeciality";
 
     let response = await axios.post(
       url,
@@ -43,7 +43,7 @@ async function doGetCities() {
 
   async function findRecord() {
 
-    let url = "https://stich-aura-backend.vercel.app//tailor/tailorfullrecord";
+    let url = "https://stich-aura.vercel.app//tailor/tailorfullrecord";
 
     let response3 = await axios.post(
       url,

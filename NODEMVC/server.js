@@ -22,13 +22,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
 // CORS (ONLY ONCE)
-app.use(cors({
-  origin: [
-    "https://stich-aura-1vwa.vercel.app"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+
+    app.use(cors({
+  origin: "https://stich-aura-1vwa.vercel.app",
+  methods: ["GET","POST","PUT","DELETE"],
   credentials: true
 }));
+ 
 
 // ROUTES
 app.use("/user", userRouter);

@@ -15,7 +15,7 @@ function Reviews() {
   {
   if (formData.contact === "") return;
 
-  let url = "https://stich-aura-backend.vercel.app/review/tailornamesearch";
+  let url = "https://stich-aura.vercel.app/review/tailornamesearch";
 
   try {
     let response = await axios.post(url, { contact: formData.contact });
