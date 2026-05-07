@@ -13,7 +13,7 @@ function validateToken2(req, resp, next) {
     try {
         const token = full_token.split(" ")[1];
 
-        const data = jwt.verify(token, process.env.sec_key);
+        const data = jwt.verify(token, process.env.SEC_KEY);
 
         console.log("✅ VALID TOKEN:", data);
 
