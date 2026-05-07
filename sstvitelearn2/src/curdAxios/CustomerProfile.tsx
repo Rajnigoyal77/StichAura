@@ -47,7 +47,7 @@ const Signup= () => {
   const handleSubmit =  async (e: React.FormEvent<HTMLFormElement>) => {
      e.preventDefault();
     console.log(formData);
-    let url="http://https://stich-aura-backend.vercel.app//customer/customerprofilesignup";
+    let url="https://stich-aura-backend-4dwjubqgt-rajnigoyal77s-projects.vercel.app/user/loginaxiosstich-aura-backend.vercel.app//customer/customerprofilesignup";
     let frmData=new FormData();
     frmData.append("emailid",formData.emailid);
     frmData.append("name",formData.name);
@@ -99,7 +99,7 @@ function updatePicAndSetPreview(event: React.ChangeEvent<HTMLInputElement>) {
   const handleUpdate =  async () => {
    
     console.log(formData);
-    let url="http://https://stich-aura-backend.vercel.app//customer/customerprofileupdate";
+    let url="https://stich-aura-backend-4dwjubqgt-rajnigoyal77s-projects.vercel.app/user/loginaxiosstich-aura-backend.vercel.app//customer/customerprofileupdate";
     let frmData=new FormData();
     frmData.append("emailid",formData.emailid);
     frmData.append("name",formData.name);
@@ -119,7 +119,7 @@ function updatePicAndSetPreview(event: React.ChangeEvent<HTMLInputElement>) {
   
   async function doFind()
   {
-     let url="http://https://stich-aura-backend.vercel.app//customer/customerprofilesearch";
+     let url="https://stich-aura-backend-4dwjubqgt-rajnigoyal77s-projects.vercel.app/user/loginaxiosstich-aura-backend.vercel.app//customer/customerprofilesearch";
      let response2= await axios.post(url,{emailid:formData.emailid},{headers: { "Content-Type": "application/x-www-form-urlencoded" }});
    
  
