@@ -21,13 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(fileUpload());
 
-// app.use(cors({
-//   origin: "https://stich-aura-1vwa.vercel.app",
-//   methods: ["GET", "POST", "PUT", "DELETE"],
-//   allowedHeaders: ["Content-Type", "Authorization"]
-// }));
-const cors = require("cors");
-
+// CORS (ONLY ONCE)
 app.use(cors({
   origin: [
     "https://stich-aura-1vwa.vercel.app"
@@ -35,7 +29,6 @@ app.use(cors({
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
-
 
 // ROUTES
 app.use("/user", userRouter);
@@ -51,5 +44,4 @@ app.get("/", (req, res) => {
   });
 });
 
-// EXPORT
 module.exports = app;
