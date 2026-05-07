@@ -15,7 +15,7 @@ function Reviews() {
   {
   if (formData.contact === "") return;
 
-  let url = "http://localhost:2007/review/tailornamesearch";
+  let url = "http://https://stich-aura-backend.vercel.app//review/tailornamesearch";
 
   try {
     let response = await axios.post(url, { contact: formData.contact });
@@ -53,7 +53,7 @@ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 
   try {
     const response = await axios.post(
-      "http://localhost:2007/review/tailorreview",
+      "http://https://stich-aura-backend.vercel.app//review/tailorreview",
       formData,
       {
         headers: {

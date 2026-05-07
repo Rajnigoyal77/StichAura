@@ -4,21 +4,21 @@ import axios from "axios";
 function FindTailor() {
 
   const [selectedCity, setSelectedCity] = useState("");
-  const [cityList, setCityList] = useState<string[]>([]);
+  const [cities, setCities] = useState<string[]>([]);
   const [category, setSelectedCategory] = useState("");
   const [specialityList, setSpecialityList] = useState<string[]>([]);
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
   const [tailorList, setTailorList] = useState<any[]>([]);
+async function doGetCities() {
 
-  async function doGetCities() {
+  let url = "https://stich-aura-backend.vercel.app/tailor/getcities";
 
-    let url = "http://localhost:2007/tailor/getcities";
-    let response = await axios.post(url);
+  let response = await axios.post(url);
 
-    if (response.data.cities) {
-      setCityList([...new Set (response.data.cities)]);
-    }
+  if (response.data.cities) {
+    setCities([...new Set(response.data.cities as string[])]);
   }
+}
 
   useEffect(() => {
     doGetCities();
@@ -28,7 +28,7 @@ function FindTailor() {
 
     setSelectedSpeciality("");
 
-    let url = "http://localhost:2007/tailor/getspeciality";
+    let url = "http://https://stich-aura-backend.vercel.app/tailor/getspeciality";
 
     let response = await axios.post(
       url,
@@ -43,7 +43,7 @@ function FindTailor() {
 
   async function findRecord() {
 
-    let url = "http://localhost:2007/tailor/tailorfullrecord";
+    let url = "http://https://stich-aura-backend.vercel.app/tailor/tailorfullrecord";
 
     let response3 = await axios.post(
       url,
@@ -114,7 +114,7 @@ return (
           >
             <option value="">Select City</option>
             {
-              cityList.map((city,index)=>(
+              cities.map((city,index)=>(
                 <option key={index} value={city}>{city}</option>
               ))
             }

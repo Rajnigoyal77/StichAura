@@ -47,7 +47,7 @@ const Signup= () => {
   const handleSubmit =  async (e: React.FormEvent<HTMLFormElement>) => {
      e.preventDefault();
     console.log(formData);
-    let url="http://localhost:2007/customer/customerprofilesignup";
+    let url="http://https://stich-aura-backend.vercel.app//customer/customerprofilesignup";
     let frmData=new FormData();
     frmData.append("emailid",formData.emailid);
     frmData.append("name",formData.name);
@@ -68,22 +68,38 @@ const Signup= () => {
 
   
 
-function updatePicAndSetPreview(event:React.ChangeEvent<HTMLFormElement>)
-  {
-    let selFileObj=event.target.files[0];
-     setFormData((prev)=>(
-        {...prev,["profilepic"]:selFileObj} ))
-        const prevObj=URL.createObjectURL(selFileObj);
-        setPrev(prevObj);
+// function updatePicAndSetPreview(event:React.ChangeEvent<HTMLInputElement>)
+//   {
+//     let selFileObj=event.target.files[0];
+//      setFormData((prev)=>(
+//         {...prev,["profilepic"]:selFileObj} ))
+//         const prevObj=URL.createObjectURL(selFileObj);
+//         setPrev(prevObj);
     
 
 
-  }
+//   }
+
+
+
+function updatePicAndSetPreview(event: React.ChangeEvent<HTMLInputElement>) {
+
+  let selFileObj = event.target.files?.[0];
+
+  if (!selFileObj) return;
+
+  setFormData((prev) => (
+    { ...prev, ["profilepic"]: selFileObj }
+  ));
+
+  const prevObj = URL.createObjectURL(selFileObj);
+  setPrev(prevObj);
+}
 
   const handleUpdate =  async () => {
    
     console.log(formData);
-    let url="http://localhost:2007/customer/customerprofileupdate";
+    let url="http://https://stich-aura-backend.vercel.app//customer/customerprofileupdate";
     let frmData=new FormData();
     frmData.append("emailid",formData.emailid);
     frmData.append("name",formData.name);
@@ -103,7 +119,7 @@ function updatePicAndSetPreview(event:React.ChangeEvent<HTMLFormElement>)
   
   async function doFind()
   {
-     let url="http://localhost:2007/customer/customerprofilesearch";
+     let url="http://https://stich-aura-backend.vercel.app//customer/customerprofilesearch";
      let response2= await axios.post(url,{emailid:formData.emailid},{headers: { "Content-Type": "application/x-www-form-urlencoded" }});
    
  

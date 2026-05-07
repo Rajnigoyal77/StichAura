@@ -51,7 +51,8 @@ export default function HomePage() {
       <section className="w-full min-h-screen grid md:grid-cols-2">
 
         {/* LEFT */}
-        <div className="flex flex-col justify-center px-6 sm:px-12 md:px-20 bg-gradient-to-br from-[#1a1a1a] to-[#3b2f2a]">
+        <div className="flex
+         flex-col justify-center px-6 sm:px-12 md:px-20 bg-gradient-to-br from-[#1a1a1a] to-[#3b2f2a]">
 
           <p className="text-amber-400 mb-4 tracking-widest text-sm">
             ESTD 2015 • PREMIUM TAILORING

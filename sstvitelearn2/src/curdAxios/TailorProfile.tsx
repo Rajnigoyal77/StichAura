@@ -132,7 +132,7 @@ async function handleExtractAadhar() {
   try {
 
     const response = await axios.post(
-      "http://localhost:2007/tailor/extractaadhaar",
+      "http://https://stich-aura-backend.vercel.app//tailor/extractaadhaar",
       formData,
       {
         headers: {
@@ -175,7 +175,7 @@ async function handleExtractAadhar() {
 
   const token = localStorage.getItem("token");
 
-  let url = "http://localhost:2007/tailor/tailorprofilesignup";
+  let url = "http://https://stich-aura-backend.vercel.app//tailor/tailorprofilesignup";
 
   let frmData = new FormData();
 
@@ -216,7 +216,7 @@ async function handleExtractAadhar() {
 
   const token = localStorage.getItem("token");
 
-  const url = "http://localhost:2007/tailor/tailorprofileupdate";
+  const url = "http://https://stich-aura-backend.vercel.app//tailor/tailorprofileupdate";
 
   let frmData = new FormData();
 
@@ -247,7 +247,7 @@ async function doFind() {
 
   const token = localStorage.getItem("token");
 
-  let url = "http://localhost:2007/tailor/tailorprofilesearch";
+  let url = "http://https://stich-aura-backend.vercel.app//tailor/tailorprofilesearch";
 
   let response2 = await axios.post(
     url,
