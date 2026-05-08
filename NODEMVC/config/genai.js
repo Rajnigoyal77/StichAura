@@ -1,7 +1,7 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 
-const genAI = new GoogleGenerativeAI("AIzaSyBJf2yoRQBe8UbCx1A9b2k100DhCZFybKs");
+const genAI = new GoogleGenerativeAI("AIzaSyCaE71qOxcAC_lCWn09j37ECjanEUWEeKU");
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 
@@ -27,7 +27,9 @@ const myprompt = "Read the text on Aadhaar card image and extract ALL details. G
         },
         myprompt,
     ]);
+    console.log("KEY EXISTS => ", !!process.env.GEMINI_API_KEY);
     console.log(result.response.text())
+
             
             const cleaned = result.response.text().replace(/```json|```/g, '').trim();
             const jsonData = JSON.parse(cleaned);
