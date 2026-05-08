@@ -179,6 +179,7 @@ async function doExtractAadhaar(req, resp) {
     try {
 
         console.log("AADHAR FILES => ", req.files);
+        console.log("FILES =>", req.files);
 
         if (!req.files) {
 
@@ -200,11 +201,26 @@ async function doExtractAadhaar(req, resp) {
             "TEMP FILE PATH => ",
             req.files.aadharCard.tempFilePath
         );
+        console.log("AADHAR FILE => ", req.files.aadharCard);
 
-        const result = await cloudinary.uploader.upload(
-            req.files.aadharCard.tempFilePath
-        );
+console.log(
+    "TEMP FILE PATH => ",
+    req.files.aadharCard.tempFilePath
+);
 
+if (!req.files.aadharCard.tempFilePath) {
+
+    return resp.status(400).json({
+        status: false,
+        msg: "tempFilePath missing"
+    });
+}
+
+const result = await cloudinary.uploader.upload(
+    req.files.aadharCard.tempFilePath
+);
+
+      
         console.log("CLOUDINARY RESULT => ", result);
 
         const jsonAdhaarData = await genAi(result.secure_url);
