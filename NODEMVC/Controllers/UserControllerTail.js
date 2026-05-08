@@ -1,6 +1,4 @@
-//var path = require("path");
 var cloudinary = require("cloudinary");
-//const fs = require("fs");
 
 var TailProfColRef = require("../models/model_userTail");
 var { genAi } = require("../config/genai");
@@ -13,52 +11,52 @@ cloudinary.config({
 
 ///////////////////// SIGNUP /////////////////////
 async function doTailorSignup(req, resp) {
+
     try {
+
+        console.log("SIGNUP API HIT");
+
         let profilePic = "nopic.jpg";
         let aadharCard = "nopic.jpg";
 
+        console.log("BODY:", req.body);
+
         // PROFILE PIC
         if (req.files && req.files.profilePic) {
-            const fileName = req.files.profilePic.name;
-            // const uploadPath = path.join(__dirname, "..", "uploads", fileName);
 
-            // await req.files.profilePic.mv(uploadPath);
-
-            // const result = await cloudinary.uploader.upload(uploadPath);
-            // profilePic = result.url;
-
-            // fs.unlinkSync(uploadPath);
+            console.log("PROFILE PIC FOUND");
 
             const result = await cloudinary.uploader.upload(
                 req.files.profilePic.tempFilePath
-                  );
+            );
 
-                profilePic = result.secure_url;
-                  }
+            profilePic = result.secure_url;
+
+            console.log("PROFILE PIC URL:", profilePic);
+        }
 
         // AADHAR CARD
         if (req.files && req.files.aadharCard) {
-            const fileName = req.files.aadharCard.name;
-            const uploadPath = path.join(__dirname, "..", "uploads", fileName);
 
-            await req.files.aadharCard.mv(uploadPath);
+            console.log("AADHAR FOUND");
 
-            // const result = await cloudinary.uploader.upload(uploadPath);
-            // aadharCard = result.url;
-
-            // fs.unlinkSync(uploadPath);
             const result = await cloudinary.uploader.upload(
-    req.files.aadharCard.tempFilePath
-);
+                req.files.aadharCard.tempFilePath
+            );
 
-aadharCard = result.secure_url;
+            aadharCard = result.secure_url;
+
+            console.log("AADHAR URL:", aadharCard);
         }
 
         req.body.profilePic = profilePic;
         req.body.aadharCard = aadharCard;
 
         let obj = new TailProfColRef(req.body);
+
         await obj.save();
+
+        console.log("PROFILE SAVED");
 
         return resp.status(200).json({
             status: true,
@@ -67,6 +65,9 @@ aadharCard = result.secure_url;
         });
 
     } catch (err) {
+
+        console.log("SIGNUP ERROR:", err);
+
         return resp.status(500).json({
             status: false,
             msg: err.message
@@ -76,61 +77,47 @@ aadharCard = result.secure_url;
 
 ///////////////////// UPDATE /////////////////////
 async function doTailorUpdate(req, resp) {
+
     try {
-        // if (req.files) {
 
-        //     if (req.files.profilePic) {
-        //         const fileName = req.files.profilePic.name;
-        //         const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+        console.log("UPDATE API HIT");
 
-        //         await req.files.profilePic.mv(uploadPath);
-
-        //         const result = await cloudinary.uploader.upload(uploadPath);
-        //         req.body.profilePic = result.url;
-
-        //         fs.unlinkSync(uploadPath);
-        //     }
-
-        //     if (req.files.aadharCard) {
-        //         const fileName = req.files.aadharCard.name;
-        //         const uploadPath = path.join(__dirname, "..", "uploads", fileName);
-
-        //         await req.files.aadharCard.mv(uploadPath);
-
-        //         const result = await cloudinary.uploader.upload(uploadPath);
-        //         req.body.aadharCard = result.url;
-
-        //         fs.unlinkSync(uploadPath);
-        //     }
-        // }
-
+        console.log("BODY:", req.body);
 
         if (req.files) {
 
-    if (req.files.profilePic) {
+            console.log("FILES FOUND");
 
-        const result = await cloudinary.uploader.upload(
-            req.files.profilePic.tempFilePath
-        );
+            if (req.files.profilePic) {
 
-        req.body.profilePic = result.secure_url;
-    }
+                console.log("UPDATING PROFILE PIC");
 
-    if (req.files.aadharCard) {
+                const result = await cloudinary.uploader.upload(
+                    req.files.profilePic.tempFilePath
+                );
 
-        const result = await cloudinary.uploader.upload(
-            req.files.aadharCard.tempFilePath
-        );
+                req.body.profilePic = result.secure_url;
+            }
 
-        req.body.aadharCard = result.secure_url;
-    }
-}
+            if (req.files.aadharCard) {
+
+                console.log("UPDATING AADHAR");
+
+                const result = await cloudinary.uploader.upload(
+                    req.files.aadharCard.tempFilePath
+                );
+
+                req.body.aadharCard = result.secure_url;
+            }
+        }
 
         const doc = await TailProfColRef.findOneAndUpdate(
             { emailid: req.body.emailid },
             { $set: req.body },
             { new: true }
         );
+
+        console.log("UPDATED DOC:", doc);
 
         return resp.status(200).json({
             status: true,
@@ -139,6 +126,9 @@ async function doTailorUpdate(req, resp) {
         });
 
     } catch (err) {
+
+        console.log("UPDATE ERROR:", err);
+
         return resp.status(500).json({
             status: false,
             msg: err.message
@@ -148,10 +138,21 @@ async function doTailorUpdate(req, resp) {
 
 ///////////////////// FIND /////////////////////
 async function doTailorFind(req, resp) {
+
     try {
-        const doc = await TailProfColRef.findOne({ emailid: req.body.emailid });
+
+        console.log("SEARCH API HIT");
+
+        console.log("SEARCH BODY:", req.body);
+
+        const doc = await TailProfColRef.findOne({
+            emailid: req.body.emailid
+        });
+
+        console.log("FOUND DOC:", doc);
 
         if (!doc) {
+
             return resp.status(404).json({
                 status: false,
                 msg: "Invalid id"
@@ -165,6 +166,9 @@ async function doTailorFind(req, resp) {
         });
 
     } catch (err) {
+
+        console.log("SEARCH ERROR:", err);
+
         return resp.status(500).json({
             status: false,
             msg: err.message
@@ -174,28 +178,32 @@ async function doTailorFind(req, resp) {
 
 ///////////////////// AADHAR EXTRACT /////////////////////
 async function doExtractAadhaar(req, resp) {
+
     try {
+
+        console.log("AADHAR EXTRACT API HIT");
+
         if (!req.files || !req.files.aadharCard) {
+
+            console.log("NO FILE");
+
             return resp.status(400).json({
                 status: false,
                 msg: "No file uploaded"
             });
         }
 
-        // const file = req.files.aadharCard;
-        // const fileName = file.name;
-        // const uploadPath = path.join(__dirname, "..", "uploads", fileName);
-
-        // await file.mv(uploadPath);
-
-        // const result = await cloudinary.uploader.upload(uploadPath);
-
-        // fs.unlinkSync(uploadPath);
+        console.log("AADHAR FILE FOUND");
 
         const result = await cloudinary.uploader.upload(
-    req.files.aadharCard.tempFilePath
-);
-        const jsonAdhaarData = await genAi(result.url);
+            req.files.aadharCard.tempFilePath
+        );
+
+        console.log("CLOUDINARY URL:", result.secure_url);
+
+        const jsonAdhaarData = await genAi(result.secure_url);
+
+        console.log("GEN AI RESPONSE:", jsonAdhaarData);
 
         return resp.status(200).json({
             status: true,
@@ -203,6 +211,9 @@ async function doExtractAadhaar(req, resp) {
         });
 
     } catch (err) {
+
+        console.log("AADHAR ERROR:", err);
+
         return resp.status(500).json({
             status: false,
             msg: err.message
@@ -212,10 +223,17 @@ async function doExtractAadhaar(req, resp) {
 
 ///////////////////// SPECIALITY /////////////////////
 async function doSearchSpeciality(req, resp) {
+
     try {
-        const doc = await TailProfColRef.distinct("speciality", {
-            category: req.body.category
-        });
+
+        console.log("SPECIALITY API HIT");
+
+        const doc = await TailProfColRef.distinct(
+            "speciality",
+            {
+                category: req.body.category
+            }
+        );
 
         return resp.status(200).json({
             status: true,
@@ -223,6 +241,9 @@ async function doSearchSpeciality(req, resp) {
         });
 
     } catch (err) {
+
+        console.log("SPECIALITY ERROR:", err);
+
         return resp.status(500).json({
             status: false,
             msg: err.message
@@ -232,14 +253,23 @@ async function doSearchSpeciality(req, resp) {
 
 ///////////////////// FULL SEARCH /////////////////////
 async function doFindFullRecord(req, resp) {
+
     try {
+
+        console.log("FULL SEARCH API HIT");
+
+        console.log("BODY:", req.body);
+
         const doc = await TailProfColRef.find({
             shopcity: req.body.shopcity,
             category: req.body.category,
             speciality: req.body.speciality
         });
 
+        console.log("FULL SEARCH RESULT:", doc);
+
         if (doc.length === 0) {
+
             return resp.status(404).json({
                 status: false,
                 msg: "Record doesn't found ❌"
@@ -253,6 +283,9 @@ async function doFindFullRecord(req, resp) {
         });
 
     } catch (err) {
+
+        console.log("FULL SEARCH ERROR:", err);
+
         return resp.status(500).json({
             status: false,
             msg: err.message
@@ -262,10 +295,19 @@ async function doFindFullRecord(req, resp) {
 
 ///////////////////// CITY /////////////////////
 async function doSearchCity(req, resp) {
+
     try {
-        const cities = await TailProfColRef.distinct("shopcity", {
-            shopcity: { $ne: "" }
-        });
+
+        console.log("CITY API HIT");
+
+        const cities = await TailProfColRef.distinct(
+            "shopcity",
+            {
+                shopcity: { $ne: "" }
+            }
+        );
+
+        console.log("CITIES:", cities);
 
         return resp.status(200).json({
             status: true,
@@ -273,6 +315,9 @@ async function doSearchCity(req, resp) {
         });
 
     } catch (err) {
+
+        console.log("CITY ERROR:", err);
+
         return resp.status(500).json({
             status: false,
             msg: err.message
