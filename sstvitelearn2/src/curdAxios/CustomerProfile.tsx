@@ -133,97 +133,199 @@ const Signup = () => {
     setEditMode(false);
   }
 
-  return (
-    <div className="min-h-screen w-screen bg-[#111] text-white flex flex-col overflow-x-hidden">
-
-      <header className="w-full flex items-center justify-between px-4 sm:px-6 py-4 border-b border-gray-800">
-        <h1 className="text-xl sm:text-2xl font-bold">
+ return (
+  <div className="min-h-screen bg-[#0f0f0f] text-white flex flex-col">
+    
+    {/* HEADER */}
+    <header className="w-full border-b border-gray-800 bg-[#111]">
+      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <h1 className="text-3xl font-bold tracking-wide">
           Stich<span className="text-amber-400">Aura 🧵</span>
         </h1>
-      </header>
+      </div>
+    </header>
 
-      <main className="flex-1 w-full flex items-center justify-center relative px-4">
+    {/* MAIN */}
+    <main className="flex-1 flex items-center justify-center px-4 py-10">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-4xl bg-[#1a1a1a] border border-gray-700 rounded-3xl shadow-2xl p-8"
+      >
+        <h2 className="text-4xl font-bold text-center mb-10">
+          Customer Profile
+        </h2>
 
-        <form onSubmit={handleSubmit} className="w-full max-w-lg z-10">
-          <div className="bg-[#1a1a1a]/90 border border-gray-700 rounded-3xl p-6 sm:p-8">
+        {/* EMAIL + FIND */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="md:col-span-3">
+            <label className="block mb-2 text-sm text-gray-300">
+              Email ID
+            </label>
 
-            <h2 className="text-3xl font-bold text-center mb-6">
-              Customer Profile
-            </h2>
+            <input
+              type="email"
+              name="emailid"
+              value={formData.emailid}
+              onChange={handleChange}
+              placeholder="Enter email"
+              className="w-full px-4 py-3 rounded-xl bg-[#111] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
 
-            {/* EMAIL + FIND */}
-            <div className="flex gap-3 mb-4">
-              <input
-                type="email"
-                name="emailid"
-                value={formData.emailid}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-xl bg-[#111] border border-gray-700"
-              />
+          <div className="flex items-end">
+            <button
+              type="button"
+              onClick={doFind}
+              className="w-full bg-green-600 hover:bg-green-700 transition-all py-3 rounded-xl font-semibold"
+            >
+              Find
+            </button>
+          </div>
+        </div>
 
-              <button
-                type="button"
-                onClick={doFind}
-                className="px-4 py-2 bg-green-600 rounded-xl text-black"
-              >
-                Find
-              </button>
-            </div>
+        {/* PROFILE PIC */}
+        <div className="mb-8">
+          <label className="block mb-2 text-sm text-gray-300">
+            Profile Picture
+          </label>
 
-            {/* IMAGE */}
-            <input type="file" onChange={updatePicAndSetPreview} />
+          <input
+            type="file"
+            onChange={updatePicAndSetPreview}
+            className="w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-pink-600 file:text-white hover:file:bg-pink-700"
+          />
 
-            {prev && (
-              <img src={prev} className="w-20 h-20 rounded-full mt-2" />
-            )}
+          {prev && (
+            <img
+              src={prev}
+              alt="preview"
+              className="w-28 h-28 object-cover rounded-full mt-5 border-4 border-pink-500"
+            />
+          )}
+        </div>
 
-            {/* FIELDS */}
-            <input name="name" value={formData.name} onChange={handleChange} />
-            <input name="address" value={formData.address} onChange={handleChange} />
-            <input name="city" value={formData.city} onChange={handleChange} />
+        {/* FORM FIELDS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <select name="state" value={formData.state} onChange={handleChange}>
+          {/* NAME */}
+          <div>
+            <label className="block mb-2 text-sm text-gray-300">
+              Full Name
+            </label>
+
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter full name"
+              className="w-full px-4 py-3 rounded-xl bg-[#111] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          {/* CITY */}
+          <div>
+            <label className="block mb-2 text-sm text-gray-300">
+              City
+            </label>
+
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              placeholder="Enter city"
+              className="w-full px-4 py-3 rounded-xl bg-[#111] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          {/* ADDRESS */}
+          <div className="md:col-span-2">
+            <label className="block mb-2 text-sm text-gray-300">
+              Address
+            </label>
+
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              placeholder="Enter address"
+              className="w-full px-4 py-3 rounded-xl bg-[#111] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          {/* STATE */}
+          <div>
+            <label className="block mb-2 text-sm text-gray-300">
+              State
+            </label>
+
+            <select
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl bg-[#111] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            >
               <option value="">Select State</option>
+
               {uniqueStates.map((s, i) => (
                 <option key={i} value={s}>
                   {s}
                 </option>
               ))}
             </select>
+          </div>
 
-            <select name="gender" value={formData.gender} onChange={handleChange}>
-              <option value="">Gender</option>
+          {/* GENDER */}
+          <div>
+            <label className="block mb-2 text-sm text-gray-300">
+              Gender
+            </label>
+
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl bg-[#111] border border-gray-700 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            >
+              <option value="">Select Gender</option>
               <option>Male</option>
               <option>Female</option>
               <option>Other</option>
             </select>
-
-            {/* BUTTONS */}
-            {isEditMode && (
-              <button type="submit" className="bg-pink-600 w-full mt-4">
-                Save
-              </button>
-            )}
-
-            {!isEditMode && (
-              <button
-                type="button"
-                onClick={handleUpdate}
-                className="bg-green-600 w-full mt-4"
-              >
-                Update
-              </button>
-            )}
           </div>
-        </form>
+        </div>
 
-      </main>
+        {/* BUTTON */}
+        <div className="mt-10">
+          {isEditMode ? (
+            <button
+              type="submit"
+              className="w-full bg-pink-600 hover:bg-pink-700 transition-all py-3 rounded-xl text-lg font-bold"
+            >
+              Save Profile
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleUpdate}
+              className="w-full bg-green-600 hover:bg-green-700 transition-all py-3 rounded-xl text-lg font-bold"
+            >
+              Update Profile
+            </button>
+          )}
+        </div>
+      </form>
+    </main>
 
-      <footer className="text-center text-gray-400 py-4">
-        © 2026 StitchAura
-      </footer>
-    </div>
-  );
-};
+    {/* FOOTER */}
+    <footer className="border-t border-gray-800 py-4 text-center text-gray-400">
+      © 2026 StitchAura
+    </footer>
+  </div>
+)
+}
+
 
 export default Signup;

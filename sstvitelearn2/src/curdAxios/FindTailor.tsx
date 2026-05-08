@@ -30,8 +30,11 @@ async function doGetCities() {
 
     let url = "https://stich-aura.vercel.app/tailor/getspeciality";
 
- 
-   
+    // let response = await axios.post(
+    //   url,
+    //   { category: category },
+    //   { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+   // );
      const response= await axios.post(url, 
   { category: category }
 );
