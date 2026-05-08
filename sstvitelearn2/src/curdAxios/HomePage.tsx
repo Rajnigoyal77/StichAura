@@ -44,7 +44,7 @@ export default function HomePage() {
   </div>
 
   {/* NAV */}
-  <nav className="flex items-center gap-4 text-sm">
+<nav className="flex items-center gap-3 text-sm flex-nowrap overflow-x-auto">
 
    <a
   href="#home"
@@ -60,9 +60,9 @@ export default function HomePage() {
       Signup
     </Link>
 
-    <Link
+   <Link
   to="/login"
-  className="text-amber-300 hover:text-amber-400 font-medium px-2 py-1"
+  className="text-amber-300 hover:text-amber-400 font-medium px-2 py-1 whitespace-nowrap"
 >
   Login
 </Link>
@@ -376,7 +376,13 @@ export default function HomePage() {
 
         <div className="mt-4 space-x-6">
 
-          <Link to="/">Home</Link>
+          {/* <Link to="/">Home</Link> */}
+                  <a
+            href="#home"
+           className="hover:text-white cursor-pointer"
+>
+  Home
+</a>
 
           <Link to="/app/findTailor">
             Find Tailor
