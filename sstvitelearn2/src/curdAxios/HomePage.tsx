@@ -27,8 +27,7 @@ export default function HomePage() {
           {/* <Link to="/" className="hover:text-white">
             Home
           </Link> */}
-
-  <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 py-3 border-b border-amber-400/20 flex items-center justify-between">
+<header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 py-3 border-b border-amber-400/20 flex items-center justify-between overflow-x-hidden">
 
   {/* LOGO */}
   <div className="flex items-center gap-2">
