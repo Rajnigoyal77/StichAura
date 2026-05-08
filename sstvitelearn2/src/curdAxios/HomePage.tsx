@@ -28,10 +28,10 @@ export default function HomePage() {
             Home
           </Link> */}
 
-    <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 sm:px-6 py-3 flex items-center justify-between border-b border-amber-400/20 overflow-x-auto">
+   <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 sm:px-6 py-3 flex items-center justify-between border-b border-amber-400/20">
 
-  {/* LEFT: LOGO + NAME */}
-  <div className="flex items-center gap-2 sm:gap-3 min-w-fit">
+  {/* LEFT: LOGO */}
+  <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
 
     <img
       src="/logo.jpg"
@@ -45,28 +45,29 @@ export default function HomePage() {
 
   </div>
 
-  {/* RIGHT NAV (single row, no wrap) */}
-<nav className="flex items-center gap-3 sm:gap-6 text-sm sm:text-base whitespace-nowrap shrink-0">
+  {/* RIGHT NAV */}
+  <nav className="flex items-center gap-3 sm:gap-6 text-sm sm:text-base flex-shrink-0">
 
-  <a href="#home" className="hover:text-white transition">
-    Home
-  </a>
+    <a href="#home" className="hover:text-white transition whitespace-nowrap">
+      Home
+    </a>
 
-  <Link
-    to="/signup"
-    className="bg-amber-400 text-black px-3 sm:px-4 py-1 sm:py-2 rounded-full hover:bg-amber-500 transition font-semibold"
-  >
-    Signup
-  </Link>
+    <Link
+      to="/signup"
+      className="bg-amber-400 text-black px-3 sm:px-4 py-1 sm:py-2 rounded-full hover:bg-amber-500 transition font-semibold whitespace-nowrap"
+    >
+      Signup
+    </Link>
 
-  <Link
-    to="/login"
-    className="hover:text-amber-400 transition"
-  >
-    Login
-  </Link>
+    <Link
+      to="/login"
+      className="hover:text-amber-400 transition whitespace-nowrap"
+    >
+      Login
+    </Link>
 
-</nav>
+  </nav>
+
 </header>
 
       {/* HERO */}
