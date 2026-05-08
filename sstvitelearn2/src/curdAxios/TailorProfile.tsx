@@ -151,7 +151,7 @@ async function handleExtractAadhar() {
         ...prev,
         personal: {
           ...prev.personal,
-          aadharno: extracted.adhaar_number || "",
+          aadharno: extracted.aadharno || extracted.adhaar_number || "",
           name: extracted.name || "",
           address: extracted.address || "",
           city: extracted.city || ""
@@ -193,13 +193,13 @@ async function handleExtractAadhar() {
     frmData.append("aadharCard", tailor.personal.aadharCard);
 
   frmData.append("category", tailor.professional.category);
-  frmData.append("speciality", tailor.professional.speciality);
-  frmData.append("social", tailor.professional.social);
-  frmData.append("since", tailor.professional.since);
-  frmData.append("worktype", tailor.professional.worktype);
-  frmData.append("shopadr", tailor.professional.shopadr);
-  frmData.append("shopcity", tailor.professional.shopcity);
-  frmData.append("otherinfo", tailor.professional.otherinfo);
+frmData.append("speciality", tailor.professional.speciality);
+frmData.append("social", tailor.professional.social);
+frmData.append("since", tailor.professional.since);
+frmData.append("worktype", tailor.professional.worktype);
+frmData.append("shopadr", tailor.professional.shopadr);
+frmData.append("shopcity", tailor.professional.shopcity);
+frmData.append("otherinfo", tailor.professional.otherinfo);
 
   let response = await axios.post(url, frmData, {
     headers: {
@@ -232,6 +232,15 @@ async function handleExtractAadhar() {
 
   if (tailor.personal.aadharCard)
     frmData.append("aadharCard", tailor.personal.aadharCard);
+frmData.append("category", tailor.professional.category);
+frmData.append("speciality", tailor.professional.speciality);
+frmData.append("social", tailor.professional.social);
+frmData.append("since", tailor.professional.since);
+frmData.append("worktype", tailor.professional.worktype);
+frmData.append("shopadr", tailor.professional.shopadr);
+frmData.append("shopcity", tailor.professional.shopcity);
+frmData.append("otherinfo", tailor.professional.otherinfo);
+
 
   let response = await axios.post(url, frmData, {
     headers: {
