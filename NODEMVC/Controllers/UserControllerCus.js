@@ -3,15 +3,11 @@ var cloudinary = require("cloudinary").v2;
 var CustProfColRef = require("../models/model_userCus");
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET
 });
-console.log("CLOUDINARY CHECK:", {
-  cloud: process.env.CLOUDINARY_CLOUD_NAME,
-  key: process.env.CLOUDINARY_API_KEY ? "YES" : "NO",
-  secret: process.env.CLOUDINARY_API_SECRET ? "YES" : "NO"
-});
+
 
 // ================= SIGNUP =================
 async function doCustomerSignup(req, resp) {
