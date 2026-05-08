@@ -1,6 +1,6 @@
-var path = require("path");
+//var path = require("path");
 var cloudinary = require("cloudinary");
-const fs = require("fs");
+//const fs = require("fs");
 
 var TailProfColRef = require("../models/model_userTail");
 var { genAi } = require("../config/genai");
@@ -20,15 +20,21 @@ async function doTailorSignup(req, resp) {
         // PROFILE PIC
         if (req.files && req.files.profilePic) {
             const fileName = req.files.profilePic.name;
-            const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+            // const uploadPath = path.join(__dirname, "..", "uploads", fileName);
 
-            await req.files.profilePic.mv(uploadPath);
+            // await req.files.profilePic.mv(uploadPath);
 
-            const result = await cloudinary.uploader.upload(uploadPath);
-            profilePic = result.url;
+            // const result = await cloudinary.uploader.upload(uploadPath);
+            // profilePic = result.url;
 
-            fs.unlinkSync(uploadPath);
-        }
+            // fs.unlinkSync(uploadPath);
+
+            const result = await cloudinary.uploader.upload(
+                req.files.profilePic.tempFilePath
+                  );
+
+                profilePic = result.secure_url;
+                  }
 
         // AADHAR CARD
         if (req.files && req.files.aadharCard) {
@@ -37,10 +43,15 @@ async function doTailorSignup(req, resp) {
 
             await req.files.aadharCard.mv(uploadPath);
 
-            const result = await cloudinary.uploader.upload(uploadPath);
-            aadharCard = result.url;
+            // const result = await cloudinary.uploader.upload(uploadPath);
+            // aadharCard = result.url;
 
-            fs.unlinkSync(uploadPath);
+            // fs.unlinkSync(uploadPath);
+            const result = await cloudinary.uploader.upload(
+    req.files.aadharCard.tempFilePath
+);
+
+aadharCard = result.secure_url;
         }
 
         req.body.profilePic = profilePic;
@@ -66,32 +77,54 @@ async function doTailorSignup(req, resp) {
 ///////////////////// UPDATE /////////////////////
 async function doTailorUpdate(req, resp) {
     try {
+        // if (req.files) {
+
+        //     if (req.files.profilePic) {
+        //         const fileName = req.files.profilePic.name;
+        //         const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+
+        //         await req.files.profilePic.mv(uploadPath);
+
+        //         const result = await cloudinary.uploader.upload(uploadPath);
+        //         req.body.profilePic = result.url;
+
+        //         fs.unlinkSync(uploadPath);
+        //     }
+
+        //     if (req.files.aadharCard) {
+        //         const fileName = req.files.aadharCard.name;
+        //         const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+
+        //         await req.files.aadharCard.mv(uploadPath);
+
+        //         const result = await cloudinary.uploader.upload(uploadPath);
+        //         req.body.aadharCard = result.url;
+
+        //         fs.unlinkSync(uploadPath);
+        //     }
+        // }
+
+
         if (req.files) {
 
-            if (req.files.profilePic) {
-                const fileName = req.files.profilePic.name;
-                const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+    if (req.files.profilePic) {
 
-                await req.files.profilePic.mv(uploadPath);
+        const result = await cloudinary.uploader.upload(
+            req.files.profilePic.tempFilePath
+        );
 
-                const result = await cloudinary.uploader.upload(uploadPath);
-                req.body.profilePic = result.url;
+        req.body.profilePic = result.secure_url;
+    }
 
-                fs.unlinkSync(uploadPath);
-            }
+    if (req.files.aadharCard) {
 
-            if (req.files.aadharCard) {
-                const fileName = req.files.aadharCard.name;
-                const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+        const result = await cloudinary.uploader.upload(
+            req.files.aadharCard.tempFilePath
+        );
 
-                await req.files.aadharCard.mv(uploadPath);
-
-                const result = await cloudinary.uploader.upload(uploadPath);
-                req.body.aadharCard = result.url;
-
-                fs.unlinkSync(uploadPath);
-            }
-        }
+        req.body.aadharCard = result.secure_url;
+    }
+}
 
         const doc = await TailProfColRef.findOneAndUpdate(
             { emailid: req.body.emailid },
@@ -149,16 +182,19 @@ async function doExtractAadhaar(req, resp) {
             });
         }
 
-        const file = req.files.aadharCard;
-        const fileName = file.name;
-        const uploadPath = path.join(__dirname, "..", "uploads", fileName);
+        // const file = req.files.aadharCard;
+        // const fileName = file.name;
+        // const uploadPath = path.join(__dirname, "..", "uploads", fileName);
 
-        await file.mv(uploadPath);
+        // await file.mv(uploadPath);
 
-        const result = await cloudinary.uploader.upload(uploadPath);
+        // const result = await cloudinary.uploader.upload(uploadPath);
 
-        fs.unlinkSync(uploadPath);
+        // fs.unlinkSync(uploadPath);
 
+        const result = await cloudinary.uploader.upload(
+    req.files.aadharCard.tempFilePath
+);
         const jsonAdhaarData = await genAi(result.url);
 
         return resp.status(200).json({

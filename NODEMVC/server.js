@@ -44,4 +44,9 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/"
+}));
+
 module.exports = app;

@@ -525,11 +525,20 @@ return (
     {/* ================= BUTTONS (REDUCED WIDTH) ================= */}
     <div className="flex justify-center gap-3 p-4">
 
-      <button type="submit"
+      {/* <button 
+      type="button"
         className="w-28 bg-pink-600 py-2 rounded-lg text-black text-sm"
       >
         Save
-      </button>
+      </button> */}
+
+      <button
+  type="button"
+  onClick={handleSubmit}
+  className="w-28 bg-pink-600 py-2 rounded-lg text-black text-sm"
+>
+  Save
+</button>
 
       <button type="button"
         onClick={handleUpdate}
