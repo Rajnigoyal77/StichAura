@@ -1,20 +1,33 @@
-
 var jwt = require("jsonwebtoken");
+
+
 function validateToken2(req, resp, next) {
 
-    // 🔥 ALLOW PRE-FLIGHT
     if (req.method === "OPTIONS") {
         return next();
     }
 
-    const full_token = req.headers['authorization'];
+    const authHeader = req.headers['authorization'];
 
-    if (!full_token) {
-        return resp.status(401).json({ status: false, msg: "No token" });
+    if (!authHeader) {
+        return resp.status(401).json({
+            status: false,
+            msg: "No token provided"
+        });
     }
 
+    const parts = authHeader.split(" ");
+
+    if (parts.length !== 2) {
+        return resp.status(401).json({
+            status: false,
+            msg: "Invalid token format"
+        });
+    }
+
+    const token = parts[1];
+
     try {
-        const token = full_token.split(" ")[1];
         const data = jwt.verify(token, process.env.SEC_KEY);
 
         req.user = data;
@@ -23,16 +36,14 @@ function validateToken2(req, resp, next) {
     } catch (err) {
         return resp.status(401).json({
             status: false,
-            msg: err.message
+            msg: "Token invalid or expired",
+            error: err.message
         });
     }
 }
 
+
 module.exports = { validateToken2 };
-
-
-
-
 
 
 
