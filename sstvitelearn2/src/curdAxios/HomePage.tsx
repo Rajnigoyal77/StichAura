@@ -22,7 +22,7 @@ export default function HomePage() {
 
         </div>
 
-        <nav className="hidden md:flex gap-8 text-gray-300">
+        <nav className="flex flex-col md:flex-row gap-4 md:gap-8 text-gray-300">
 
           <Link to="/" className="hover:text-white">
             Home
