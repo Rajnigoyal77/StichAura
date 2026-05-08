@@ -5,7 +5,7 @@ export default function HomePage() {
   return (
     <div className="w-screen min-h-screen bg-[#111] text-white font-sans overflow-x-hidden">
 
-      {/* HEADER */}
+      {/* HEADER
       <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 sm:px-6 py-4 flex items-center justify-between border-b border-amber-400/20">
 
         <div className="flex items-center gap-3">
@@ -28,40 +28,44 @@ export default function HomePage() {
             Home
           </Link> */}
 
-          <a href="#home" className="hover:text-white">Home</a>
-          
-      <section id="home" className="w-full min-h-screen grid md:grid-cols-2">
+    <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 sm:px-6 py-3 flex items-center justify-between border-b border-amber-400/20">
 
-  {/* LEFT */}
-  <div className="flex flex-col justify-center px-6 sm:px-12 md:px-20 bg-gradient-to-br from-[#1a1a1a] to-[#3b2f2a]">
-    ...
+  {/* LEFT: LOGO + NAME */}
+  <div className="flex items-center gap-2 sm:gap-3 min-w-fit">
+
+    <img
+      src="/logo.jpg"
+      alt="Logo"
+      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover"
+    />
+
+    <h1 className="text-lg sm:text-2xl font-bold whitespace-nowrap">
+      Stitch<span className="text-amber-400">Aura 🧵</span>
+    </h1>
+
   </div>
 
-  {/* RIGHT */}
-  <div className="w-full h-[300px] sm:h-[400px] md:h-full">
-    ...
-  </div>
+  {/* RIGHT NAV (single row, no wrap) */}
+  <nav className="flex items-center gap-3 sm:gap-6 text-sm sm:text-base whitespace-nowrap">
 
-</section>
+    <a href="#home" className="hover:text-white transition">
+      Home
+    </a>
 
+    <a
+      href="/signup"
+      className="bg-amber-400 text-black px-3 sm:px-4 py-1 sm:py-2 rounded-full hover:bg-amber-500 transition font-semibold"
+    >
+      Signup
+    </a>
 
-          <Link
-            to="/signup"
-            className="bg-amber-400 text-black px-4 py-2 rounded-full hover:bg-amber-500 transition font-semibold"
-          >
-            Signup
-          </Link>
+    <a href="/login" className="hover:text-amber-400 transition">
+      Login
+    </a>
 
-          <Link
-            to="/login"
-            className="hover:text-amber-400 transition"
-          >
-            Login
-          </Link>
+  </nav>
 
-
-        </nav>
-      </header>
+</header>
 
       {/* HERO */}
       <section className="w-full min-h-screen grid md:grid-cols-2">
