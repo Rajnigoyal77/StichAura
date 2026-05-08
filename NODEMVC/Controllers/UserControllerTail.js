@@ -236,6 +236,7 @@ async function doFindFullRecord(req, resp) {
     });
 
   } catch (err) {
+    console.log("MAIN SERVER RUNNING");
     return resp.status(500).json({
       status: false,
       msg: err.message
