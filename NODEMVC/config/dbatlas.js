@@ -1,15 +1,25 @@
-require('dotenv').config();
+require("dotenv").config();
 const mongoose = require("mongoose");
 
-const connectAtlasDB = async () => {
-    try {
-        console.log("URI =>", process.env.MONGO_URI);  // 🧪 test
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log("Atlas Connected ✅");
-    }
-    catch(err){
-        console.log("Atlas Connection Error ❌", err);
-    }
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
 }
 
-module.exports = { connectAtlasDB }
+const connectDB = async () => {
+  if (cached.conn) return cached.conn;
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 5000,
+    });
+  }
+
+  cached.conn = await cached.promise;
+
+  console.log("MongoDB Connected 🚀");
+  return cached.conn;
+};
+
+module.exports = connectDB;

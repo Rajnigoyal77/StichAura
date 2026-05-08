@@ -13,8 +13,11 @@ const UserRouterTail = require("./routers/UserRouterTail");
 const UserRouterReviews = require("./routers/UserRouterReviews");
 
 // DB
-const { connectAtlasDB } = require("./config/dbatlas");
-connectAtlasDB();
+
+
+const connectDB = require("./config/dbatlas");
+
+connectDB();
 
 // MIDDLEWARE
 app.use(express.json());
@@ -28,7 +31,7 @@ app.use(fileUpload({
 
 // CORS
 app.use(cors({
-    origin: "https://stich-aura-1vwa.vercel.app",
+    origin: ["https://stich-aura.vercel.app", "https://stich-aura-1vwa.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
