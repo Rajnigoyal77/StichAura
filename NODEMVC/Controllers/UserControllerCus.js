@@ -15,60 +15,36 @@ var cloudinary=require("cloudinary");
 });
 
 
-        
- async  function doCustomerSignup(req,resp)
- {
-
- 
+ async function doCustomerSignup(req, resp)
+{
     let fileName="nopic.jpg";
 
-    // if(req.files!=null)
-    // {
-    //  //fileName=req.files.profilepic.name;
-    //  fileName = req.files.profilepic.name.replace(/[^a-zA-Z0-9.]/g, "_");
-    // let uploadsFolderPath=path.join(__dirname,"..","uploads",fileName);
-    // req.files.profilepic.mv(uploadsFolderPath);
-    // //****************Sending to cloudinary server******************* */
-    //     //await cloudinary.uploader.upload(uploadsFolderPath).then(function(picUrlResult){
-    //     await cloudinary.uploader.upload(req.files.profilepic.tempFilePath).then(function(picUrlResult){
-    //         var fileNameUrlOnServer=picUrlResult.url;   //will give u the url of ur pic on cloudinary server
-    //        // console.log(fileNameUrlOnServer);
-    //         fileName=fileNameUrlOnServer;
-    //   }
     if (req.files != null) {
 
-  fileName = req.files.profilepic.name.replace(/[^a-zA-Z0-9.]/g, "_");
+      fileName = req.files.profilepic.name.replace(/[^a-zA-Z0-9.]/g, "_");
 
-  let uploadsFolderPath = path.join(__dirname, "..", "uploads", fileName);
+      let uploadsFolderPath = path.join(__dirname, "..", "uploads", fileName);
 
-  // WAIT for file to save properly
-  await req.files.profilepic.mv(uploadsFolderPath);
+      await req.files.profilepic.mv(uploadsFolderPath);
 
-  // Upload to Cloudinary
-  const picUrlResult = await cloudinary.uploader.upload(uploadsFolderPath);
+      const picUrlResult = await cloudinary.uploader.upload(uploadsFolderPath);
 
-  fileName = picUrlResult.secure_url;
-}
-
-    
+      fileName = picUrlResult.secure_url;
     }
 
-    
-    req.body.picurl=fileName;
+    req.body.picurl = fileName;
 
-    let objCustProfColRef=new CustProfColRef(req.body);
-    objCustProfColRef.save().then((doc)=>{
-        console.log(doc)
-        resp.status(200).json({status:true,msg:"record saved",doc:doc})
+    let objCustProfColRef = new CustProfColRef(req.body);
 
-    }).catch((err)=>{
-        resp.status(200).json({status:false,msg:err.message})
+    objCustProfColRef.save()
+    .then((doc) => {
+        console.log(doc);
+        resp.status(200).json({ status: true, msg: "record saved", doc });
     })
-   
-
-    
-
-
+    .catch((err) => {
+        resp.status(200).json({ status: false, msg: err.message });
+    });
+}
 
      async function doCustomerUpdate(req,resp)
     {
