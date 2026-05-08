@@ -46,25 +46,27 @@ export default function HomePage() {
   </div>
 
   {/* RIGHT NAV (single row, no wrap) */}
-  <nav className="flex items-center gap-3 sm:gap-6 text-sm sm:text-base whitespace-nowrap">
+ <nav className="flex items-center gap-3 sm:gap-6 text-sm sm:text-base whitespace-nowrap">
 
-    <a href="#home" className="hover:text-white transition">
-      Home
-    </a>
+  <a href="#home" className="hover:text-white transition">
+    Home
+  </a>
 
-    <a
-      href="/signup"
-      className="bg-amber-400 text-black px-3 sm:px-4 py-1 sm:py-2 rounded-full hover:bg-amber-500 transition font-semibold"
-    >
-      Signup
-    </a>
+  <Link
+    to="/signup"
+    className="bg-amber-400 text-black px-3 sm:px-4 py-1 sm:py-2 rounded-full hover:bg-amber-500 transition font-semibold"
+  >
+    Signup
+  </Link>
 
-    <a href="/login" className="hover:text-amber-400 transition">
-      Login
-    </a>
+  <Link
+    to="/login"
+    className="hover:text-amber-400 transition"
+  >
+    Login
+  </Link>
 
-  </nav>
-
+</nav>
 </header>
 
       {/* HERO */}
