@@ -6,7 +6,7 @@ export default function HomePage() {
     <div className="w-screen min-h-screen bg-[#111] text-white font-sans overflow-x-hidden">
 
       {/* HEADER */}
-      <header className="w-full bg-[#111] text-white px-6 py-4 flex items-center justify-between border-b border-amber-400/20">
+      <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 sm:px-6 py-4 flex items-center justify-between border-b border-amber-400/20">
 
         <div className="flex items-center gap-3">
 
@@ -16,19 +16,35 @@ export default function HomePage() {
             className="w-10 h-10 rounded-full object-cover"
           />
 
-          <h1 className="text-2xl font-bold tracking-wide">
-            Stitch<span className="text-amber-400">Aura  🧵</span>
-          </h1>
+          <h1 className="text-xl sm:text-2xl font-bold tracking-wide whitespace-nowrap">
+  Stitch<span className="text-amber-400">Aura 🧵</span>
+</h1>
 
         </div>
 
         <nav className="flex flex-col md:flex-row gap-4 md:gap-8 text-gray-300">
 
-          <Link to="/" className="hover:text-white">
+          {/* <Link to="/" className="hover:text-white">
             Home
-          </Link>
+          </Link> */}
 
+          <a href="#home" className="hover:text-white">Home</a>
           
+      <section id="home" className="w-full min-h-screen grid md:grid-cols-2">
+
+  {/* LEFT */}
+  <div className="flex flex-col justify-center px-6 sm:px-12 md:px-20 bg-gradient-to-br from-[#1a1a1a] to-[#3b2f2a]">
+    ...
+  </div>
+
+  {/* RIGHT */}
+  <div className="w-full h-[300px] sm:h-[400px] md:h-full">
+    ...
+  </div>
+
+</section>
+
+
           <Link
             to="/signup"
             className="bg-amber-400 text-black px-4 py-2 rounded-full hover:bg-amber-500 transition font-semibold"

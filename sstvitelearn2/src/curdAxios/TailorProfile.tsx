@@ -447,7 +447,7 @@ return (
               onClick={handleExtractAadhar}
               className="w-full bg-purple-600 hover:bg-purple-700 py-2 rounded-lg text-black"
             >
-              Verify Aadhaar
+              Auto Fill Aadhaar
             </button>
 
           </div>
