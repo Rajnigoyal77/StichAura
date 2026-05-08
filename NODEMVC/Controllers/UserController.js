@@ -4,11 +4,18 @@ var jwt=require("jsonwebtoken");
 const cloudinary = require('cloudinary').v2;//for cloudnary add
 
 
- cloudinary.config({ 
-            cloud_name: 'dgjpoywhd', 
-            api_key: '645664418842857', 
-            api_secret: 'AWkuP6-EnQ9dD6yFEV1WQQhJc04' // Click 'View API Keys' above to copy your API secret
-        });
+//  cloudinary.config({ 
+//             cloud_name: 'dsp6m03a7', 
+//             api_key: '141634814585624', 
+//             api_secret: '-GrJ5fzW5-IzpeDYQXuaHcK5CNg' // Click 'View API Keys' above to copy your API secret
+//         });
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET
+});
+
 var UserColRef=require("../models/model_user");///export model
 
 
