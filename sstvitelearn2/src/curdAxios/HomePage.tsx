@@ -28,7 +28,7 @@ export default function HomePage() {
             Home
           </Link> */}
 
-    <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 sm:px-6 py-3 flex items-center justify-between border-b border-amber-400/20">
+    <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 sm:px-6 py-3 flex items-center justify-between border-b border-amber-400/20 overflow-x-auto">
 
   {/* LEFT: LOGO + NAME */}
   <div className="flex items-center gap-2 sm:gap-3 min-w-fit">
@@ -46,7 +46,7 @@ export default function HomePage() {
   </div>
 
   {/* RIGHT NAV (single row, no wrap) */}
- <nav className="flex items-center gap-3 sm:gap-6 text-sm sm:text-base whitespace-nowrap">
+<nav className="flex items-center gap-3 sm:gap-6 text-sm sm:text-base whitespace-nowrap shrink-0">
 
   <a href="#home" className="hover:text-white transition">
     Home
