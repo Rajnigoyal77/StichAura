@@ -28,40 +28,38 @@ export default function HomePage() {
             Home
           </Link> */}
 
-   <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 sm:px-6 py-3 flex items-center justify-between border-b border-amber-400/20">
+  <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-4 py-3 border-b border-amber-400/20 flex items-center justify-between">
 
-  {/* LEFT: LOGO */}
-  <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-
+  {/* LOGO */}
+  <div className="flex items-center gap-2">
     <img
       src="/logo.jpg"
-      alt="Logo"
-      className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover"
+      className="w-9 h-9 rounded-full object-cover"
+      alt="logo"
     />
 
-    <h1 className="text-lg sm:text-2xl font-bold whitespace-nowrap">
+    <h1 className="text-lg font-bold">
       Stitch<span className="text-amber-400">Aura 🧵</span>
     </h1>
-
   </div>
 
-  {/* RIGHT NAV */}
-  <nav className="flex items-center gap-3 sm:gap-6 text-sm sm:text-base flex-shrink-0">
+  {/* NAV */}
+  <nav className="flex items-center gap-4 text-sm">
 
-    <a href="#home" className="hover:text-white transition whitespace-nowrap">
+    <a href="#home" className="hover:text-white">
       Home
     </a>
 
     <Link
       to="/signup"
-      className="bg-amber-400 text-black px-3 sm:px-4 py-1 sm:py-2 rounded-full hover:bg-amber-500 transition font-semibold whitespace-nowrap"
+      className="bg-amber-400 text-black px-3 py-1 rounded-full font-semibold"
     >
       Signup
     </Link>
 
     <Link
       to="/login"
-      className="hover:text-amber-400 transition whitespace-nowrap"
+      className="text-white hover:text-amber-400"
     >
       Login
     </Link>
@@ -69,7 +67,6 @@ export default function HomePage() {
   </nav>
 
 </header>
-
       {/* HERO */}
       <section className="w-full min-h-screen grid md:grid-cols-2">
 
