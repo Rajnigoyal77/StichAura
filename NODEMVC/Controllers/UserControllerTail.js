@@ -115,7 +115,7 @@ async function doTailorUpdate(req, resp) {
         const doc = await TailProfColRef.findOneAndUpdate(
             { emailid: req.body.emailid },
             { $set: req.body },
-            { new: true }
+            { returnDocument: "after" }
         );
 
         return resp.status(200).json({
