@@ -68,7 +68,7 @@ async function doTailorSignup(req, resp) {
         return resp.status(500).json({
             status: false,
             msg: err.message,
-            error: err
+            
         });
     }
 }

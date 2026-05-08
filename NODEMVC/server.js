@@ -16,19 +16,22 @@ const UserRouterReviews = require("./routers/UserRouterReviews");
 const { connectAtlasDB } = require("./config/dbatlas");
 connectAtlasDB();
 
-// Middleware
+// MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(fileUpload());
 
-// CORS (ONLY ONCE)
-
-    app.use(cors({
-  origin: "https://stich-aura-1vwa.vercel.app",
-  methods: ["GET","POST","PUT","DELETE"],
-  credentials: true
+// ✅ ONLY THIS FILEUPLOAD
+app.use(fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/"
 }));
- 
+
+// CORS
+app.use(cors({
+    origin: "https://stich-aura-1vwa.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
 // ROUTES
 app.use("/user", userRouter);
@@ -38,15 +41,10 @@ app.use("/review", UserRouterReviews);
 
 // TEST
 app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Backend Running 🚀"
-  });
+    res.status(200).json({
+        success: true,
+        message: "Backend Running 🚀"
+    });
 });
-
-app.use(fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/"
-}));
 
 module.exports = app;

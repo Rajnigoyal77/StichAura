@@ -203,7 +203,7 @@ async function handleExtractAadhar() {
 
   let response = await axios.post(url, frmData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      //"Content-Type": "multipart/form-data",
       Authorization: "Bearer " + token   // ✅ JWT MANUAL APPLY
     }
   });
