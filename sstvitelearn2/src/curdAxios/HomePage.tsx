@@ -46,9 +46,12 @@ export default function HomePage() {
   {/* NAV */}
   <nav className="flex items-center gap-4 text-sm">
 
-    <a href="#home" className="hover:text-white">
-      Home
-    </a>
+   <a
+  href="#home"
+  className="hover:text-white cursor-pointer"
+>
+  Home
+</a>
 
     <Link
       to="/signup"
@@ -58,18 +61,18 @@ export default function HomePage() {
     </Link>
 
     <Link
-      to="/login"
-      className="text-white hover:text-amber-400"
-    >
-      Login
-    </Link>
+  to="/login"
+  className="text-amber-300 hover:text-amber-400 font-medium px-2 py-1"
+>
+  Login
+</Link>
 
   </nav>
 
 </header>
       {/* HERO */}
-      <section className="w-full min-h-screen grid md:grid-cols-2">
-
+    
+<section id="home" className="w-full min-h-screen grid md:grid-cols-2">
         {/* LEFT */}
         <div className="flex
          flex-col justify-center px-6 sm:px-12 md:px-20 bg-gradient-to-br from-[#1a1a1a] to-[#3b2f2a]">
