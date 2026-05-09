@@ -29,10 +29,10 @@ export default function HomePage() {
           </Link> */}
 <header className="w-full sticky top-0 z-50 bg-[#111] text-white px-3 py-3 border-b border-amber-400/20">
 
-  <div className="flex items-center justify-between gap-2">
+  <div className="flex items-center justify-between">
 
     {/* LEFT */}
-    <div className="flex items-center gap-2 flex-shrink-0">
+    <div className="flex items-center gap-2">
 
       <img
         src="/logo.jpg"
@@ -40,20 +40,18 @@ export default function HomePage() {
         alt="logo"
       />
 
-      <h1 className="text-[14px] sm:text-lg font-bold whitespace-nowrap">
-        Stitch<span className="text-amber-400">Aura</span>
+      <h1 className="text-[15px] sm:text-lg font-bold whitespace-nowrap">
+        Stitch<span className="text-amber-400">Aura 🧵</span>
       </h1>
 
     </div>
 
     {/* RIGHT */}
-    <nav className="flex items-center gap-2 text-[11px] sm:text-sm flex-shrink-0">
-
-     
+    <nav className="flex items-center gap-2 text-xs sm:text-sm">
 
       <Link
         to="/signup"
-        className="bg-amber-400 text-black px-2 py-1 rounded-full font-semibold whitespace-nowrap"
+        className="bg-amber-400 text-black px-3 py-1 rounded-full font-semibold whitespace-nowrap"
       >
         Signup
       </Link>
@@ -64,13 +62,6 @@ export default function HomePage() {
       >
         Login
       </Link>
-      
-       <a
-        href="#home"
-        className="hover:text-white whitespace-nowrap"
-      >
-        Home
-      </a>
 
     </nav>
 
