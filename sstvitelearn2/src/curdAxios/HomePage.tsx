@@ -31,36 +31,36 @@ export default function HomePage() {
       {/* HERO */}
     <header className="w-full sticky top-0 z-50 bg-[#111] text-white border-b border-amber-400/20">
 
-  <div className="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex items-center justify-between">
+  <div className="w-full px-2 sm:px-6 py-3 flex items-center">
 
     {/* LEFT */}
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1 min-w-0 flex-1 overflow-hidden">
 
       <img
         src="/logo.jpg"
         alt="logo"
-        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover"
+        className="w-7 h-7 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
       />
 
-      <h1 className="text-sm sm:text-2xl font-bold whitespace-nowrap">
+      <h1 className="text-[11px] sm:text-2xl font-bold truncate">
         Stitch<span className="text-amber-400">Aura 🧵</span>
       </h1>
 
     </div>
 
     {/* RIGHT */}
-    <nav className="flex items-center gap-2 sm:gap-5">
+    <nav className="flex items-center gap-1 sm:gap-4 ml-2 flex-shrink-0">
 
       <Link
         to="/signup"
-        className="bg-amber-400 text-black text-[11px] sm:text-base px-2 sm:px-4 py-1.5 rounded-full font-semibold whitespace-nowrap"
+        className="bg-amber-400 text-black text-[10px] sm:text-base px-2 sm:px-4 py-1 rounded-full font-semibold whitespace-nowrap"
       >
         Signup
       </Link>
 
       <Link
         to="/login"
-        className="text-amber-300 hover:text-amber-400 text-[11px] sm:text-base whitespace-nowrap"
+        className="text-amber-300 hover:text-amber-400 text-[10px] sm:text-base whitespace-nowrap"
       >
         Login
       </Link>
