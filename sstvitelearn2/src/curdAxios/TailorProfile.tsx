@@ -111,104 +111,104 @@ const handleProfessional = (
 
     
  //////////////////adhar card////////////////////
-// async function handleExtractAadhar() {
-
-//   const file = tailor.personal.aadharCard;
-
-//   if (!file) {
-//     alert("Please select Aadhaar card first");
-//     return;
-//   }
-
-//   const token = localStorage.getItem("token");
-
-//   if (!token) {
-//     alert("Login required");
-//     return;
-//   }
-
-//   const formData = new FormData();
-//   formData.append("aadharCard", file);
-
-//   try {
-
-//     const response = await axios.post(
-//       "https://stich-aura.vercel.app/tailor/extractaadhaar",
-//       formData,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`   // 🔥 THIS WAS MISSING
-//         }
-//       }
-//     );
-
-//     console.log("OCR RESPONSE:", response.data);
-
-//     if (response.data.status) {
-
-//       const extracted = response.data.data;
-
-//       setTailor(prev => ({
-//         ...prev,
-//         personal: {
-//           ...prev.personal,
-//           aadharno: extracted.aadharno || extracted.adhaar_number || "",
-//           name: extracted.name || "",
-//           address: extracted.address || "",
-//           city: extracted.city || ""
-//         }
-//       }));
-
-//       alert("Aadhaar Data Extracted ✅");
-
-//     } else {
-//       alert("OCR Failed");
-//     }
-
-//   } catch (err) {
-//     console.log(err);
-//     alert("Server Error / Unauthorized");
-//   }
-// }
-
 async function handleExtractAadhar() {
 
-  if (loading) return;   // 🔥 STOP MULTIPLE CALLS
-  setLoading(true);
+  const file = tailor.personal.aadharCard;
+
+  if (!file) {
+    alert("Please select Aadhaar card first");
+    return;
+  }
+
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    alert("Login required");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("aadharCard", file);
 
   try {
-
-    const file = tailor.personal.aadharCard;
-
-    if (!file) {
-      alert("Please select Aadhaar card first");
-      return;
-    }
-
-    const token = localStorage.getItem("token");
-
-    const formData = new FormData();
-    formData.append("aadharCard", file);
 
     const response = await axios.post(
       "https://stich-aura.vercel.app/tailor/extractaadhaar",
       formData,
       {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`   // 🔥 THIS WAS MISSING
         }
       }
     );
 
-    console.log(response.data);
+    console.log("OCR RESPONSE:", response.data);
+
+    if (response.data.status) {
+
+      const extracted = response.data.data;
+
+      setTailor(prev => ({
+        ...prev,
+        personal: {
+          ...prev.personal,
+          aadharno: extracted.aadharno || extracted.adhaar_number || "",
+          name: extracted.name || "",
+          address: extracted.address || "",
+          city: extracted.city || ""
+        }
+      }));
+
+      alert("Aadhaar Data Extracted ✅");
+
+    } else {
+      alert("OCR Failed");
+    }
 
   } catch (err) {
     console.log(err);
-
-  } finally {
-    setLoading(false);   // ✅ always reset
+    alert("Server Error / Unauthorized");
   }
 }
+
+// async function handleExtractAadhar() {
+
+//   if (loading) return;   // 🔥 STOP MULTIPLE CALLS
+//   setLoading(true);
+
+//   try {
+
+//     const file = tailor.personal.aadharCard;
+
+//     if (!file) {
+//       alert("Please select Aadhaar card first");
+//       return;
+//     }
+
+//     const token = localStorage.getItem("token");
+
+//     const formData = new FormData();
+//     formData.append("aadharCard", file);
+
+//     const response = await axios.post(
+//       "https://stich-aura.vercel.app/tailor/extractaadhaar",
+//       formData,
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`
+//         }
+//       }
+//     );
+
+//     console.log(response.data);
+
+//   } catch (err) {
+//     console.log(err);
+
+//   } finally {
+//     setLoading(false);   // ✅ always reset
+//   }
+// }
   // ----------------- SAVE -----------------
  const handleSubmit = async () => {
   //e.preventDefault();
@@ -492,6 +492,8 @@ return (
           <button
   disabled={loading}
   onClick={handleExtractAadhar}
+  
+className="w-full bg-purple-600 hover:bg-purple-700 py-2 rounded-lg text-black"
 >
   {loading ? "Processing..." : "Auto Fill Aadhaar"}
 </button>
