@@ -63,7 +63,8 @@ export default function HomePage() {
 
     <Link
       to="/login"
-      className="text-amber-300 hover:text-amber-400 px-1 whitespace-nowrap"
+     // className="text-amber-300 hover:text-amber-400 px-1 whitespace-nowrap"
+     className="bg-amber-400 text-black px-2 py-1 rounded-full font-semibold whitespace-nowrap"
     >
       Login
     </Link>
