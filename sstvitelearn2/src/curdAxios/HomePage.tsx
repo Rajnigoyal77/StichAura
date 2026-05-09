@@ -37,26 +37,25 @@ export default function HomePage() {
       alt="logo"
     />
 
-    <h1 className="text-lg font-bold">
+  <h1 className="text-sm sm:text-lg font-bold whitespace-nowrap">
       Stitch<span className="text-amber-400">Aura 🧵</span>
     </h1>
   </div>
 
   {/* NAV */}
-<nav className="flex items-center gap-3 text-sm flex-nowrap overflow-x-auto">
+<nav className="flex items-center gap-2 text-[12px] sm:text-sm flex-nowrap">
 
   
 
     <Link
-      to="/signup"
-      className="bg-amber-400 text-black px-3 py-1 rounded-full font-semibold"
-    >
-      Signup
-    </Link>
-
-   <Link
+  to="/signup"
+  className="bg-amber-400 text-black px-2 py-1 rounded-full font-semibold whitespace-nowrap"
+>
+  Signup
+</Link>
+<Link
   to="/login"
-  className="text-amber-300 hover:text-amber-400 font-medium px-2 py-1 whitespace-nowrap"
+  className="text-amber-300 hover:text-amber-400 font-medium px-1 py-1 whitespace-nowrap"
 >
   Login
 </Link>
