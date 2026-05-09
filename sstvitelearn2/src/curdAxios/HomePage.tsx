@@ -39,7 +39,7 @@ export default function HomePage() {
     />
 
     <h1 className="text-[15px] sm:text-lg font-bold whitespace-nowrap">
-      Stitch<span className="text-amber-400">Aura</span>
+      Stitch<span className="text-amber-400">Aura 🧵</span>
     </h1>
 
   </div>
@@ -47,12 +47,12 @@ export default function HomePage() {
   {/* RIGHT */}
   <nav className="flex items-center gap-1 text-[11px] sm:text-sm">
 
-    <a
+    {/* <a
       href="#home"
       className="hover:text-white px-1"
     >
       Home
-    </a>
+    </a> */}
 
     <Link
       to="/signup"
