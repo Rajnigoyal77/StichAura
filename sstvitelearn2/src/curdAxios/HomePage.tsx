@@ -45,12 +45,7 @@ export default function HomePage() {
   {/* NAV */}
 <nav className="flex items-center gap-3 text-sm flex-nowrap overflow-x-auto">
 
-   <a
-  href="#home"
-  className="hover:text-white cursor-pointer"
->
-  Home
-</a>
+  
 
     <Link
       to="/signup"
@@ -65,6 +60,13 @@ export default function HomePage() {
 >
   Login
 </Link>
+
+ <a
+  href="#home"
+  className="hover:text-white cursor-pointer"
+>
+  Home
+</a>
 
   </nav>
 
