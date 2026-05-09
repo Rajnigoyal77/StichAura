@@ -49,12 +49,7 @@ export default function HomePage() {
     {/* RIGHT */}
     <nav className="flex items-center gap-2 text-[11px] sm:text-sm flex-shrink-0">
 
-      <a
-        href="#home"
-        className="hover:text-white whitespace-nowrap"
-      >
-        Home
-      </a>
+     
 
       <Link
         to="/signup"
@@ -69,6 +64,13 @@ export default function HomePage() {
       >
         Login
       </Link>
+      
+       <a
+        href="#home"
+        className="hover:text-white whitespace-nowrap"
+      >
+        Home
+      </a>
 
     </nav>
 
