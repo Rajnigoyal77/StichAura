@@ -151,6 +151,36 @@ async function doTailorFind(req, resp) {
 }
 
 // ---------------- AADHAR OCR ----------------
+// async function doExtractAadhaar(req, resp) {
+//   try {
+//     console.log("📄 AADHAR HIT");
+
+//     if (!req.files?.aadharCard?.tempFilePath) {
+//       return resp.status(400).json({
+//         status: false,
+//         msg: "Aadhaar file missing"
+//       });
+//     }
+
+//     const result = await cloudinary.uploader.upload(
+//       req.files.aadharCard.tempFilePath
+//     );
+
+//     const aiResult = await genAi(result.secure_url);
+
+//     return resp.status(200).json({
+//       status: true,
+//       data: aiResult
+//     });
+
+//   } catch (err) {
+//     console.log("🔥 AADHAR ERROR =>", err);
+//     return resp.status(500).json({
+//       status: false,
+//       msg: err.message
+//     });
+//   }
+// }
 async function doExtractAadhaar(req, resp) {
   try {
     console.log("📄 AADHAR HIT");
@@ -175,13 +205,13 @@ async function doExtractAadhaar(req, resp) {
 
   } catch (err) {
     console.log("🔥 AADHAR ERROR =>", err);
+
     return resp.status(500).json({
       status: false,
       msg: err.message
     });
   }
 }
-
 // ---------------- CITY ----------------
 async function doSearchCity(req, resp) {
   try {
@@ -393,11 +423,7 @@ module.exports = {
 // var TailProfColRef = require("../models/model_userTail");
 // var { genAi } = require("../config/genai");
 
-// cloudinary.config({
-//     cloud_name: "dgjpoywhd",
-//     api_key: "645664418842857",
-//     api_secret: "AWkuP6-EnQ9dD6yFEV1WQQhJc04"
-// });
+// c
 
 // ///////////////////// SIGNUP /////////////////////
 // async function doTailorSignup(req, resp) {
