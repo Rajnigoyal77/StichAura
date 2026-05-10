@@ -43,7 +43,7 @@ export default function HomePage() {
       />
 
       <h1 className="text-[11px] sm:text-2xl font-bold truncate">
-        Stitch<span className="text-amber-400">Aura 🧵</span>
+        Stich<span className="text-amber-400">Aura 🧵</span>
       </h1>
 
     </div>
