@@ -175,9 +175,9 @@ export default function ProfileTailor() {
               extracted.adhaar_number ||
               "",
 
-            name:
-              extracted.name ||
-              "",
+           name: extracted.name
+  ?.replace(/W\/O.*|S\/O.*|D\/O.*/gi, "")
+  ?.trim() || "",
 
             address:
               extracted.address ||

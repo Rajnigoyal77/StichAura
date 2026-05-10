@@ -1,7 +1,4 @@
-// const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-
-// const genAI = new GoogleGenerativeAI("AIzaSyDjVp2GX6Kjxn6wQWXa4LBSQLFSGpFAp2I");
 
 
 
