@@ -312,7 +312,7 @@ export default function HomePage() {
         </p>
 
         <p className="text-gray-300 max-w-3xl mx-auto mt-8 leading-8 text-lg px-6">
-          Hello, I'm Rajni Goyal — a passionate Full Stack Developer who enjoys building modern and useful web applications. StitchAura is created to help
+          Hello, I'm  — a passionate Full Stack Developer who enjoys building modern and useful web applications. StitchAura is created to help
            local home-based tailors get better work opportunities and fair payment for their skills. Many customers also struggle to find trusted tailors nearby, 
            so this platform connects both customers and tailors through a simple and user-friendly experience.
 
