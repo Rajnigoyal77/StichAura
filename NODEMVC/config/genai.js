@@ -13,10 +13,36 @@ const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 //--------------------------------------------------------
 
 
-async function genAi(imgurl)
+ async function genAi(imgurl)
+ {
+// //const myprompt = "Read the text on picture and tell all the information in adhaar card and give output STRICTLY in JSON format {adhaar_number:'', name:'', city:'', address: ''}. Dont give output as string."  
+// const myprompt = "Read the text on Aadhaar card image and extract ALL details. Give STRICT JSON only in this format: {\"adhaar_number\":\"\",\"name\":\"\",\"address\":\"\",\"city\":\"\"}. Address must be full address. City must be only city name (e.g. Zeropur, India → city = Zeropur). Do not skip any field."; 
+const myprompt = `
+Read Aadhaar card image carefully.
+
+Extract:
+- Aadhaar number
+- Person full name
+- Full address
+- City
+
+IMPORTANT:
+1. Name should be the Aadhaar holder name only.
+2. Do NOT use S/O, D/O, W/O lines as name.
+3. Ignore husband/father/wife relation names.
+4. Prefer English text.
+5. Address must be complete.
+6. City must contain only city name.
+7. Return STRICT JSON only.
+
+Format:
 {
-//const myprompt = "Read the text on picture and tell all the information in adhaar card and give output STRICTLY in JSON format {adhaar_number:'', name:'', city:'', address: ''}. Dont give output as string."  
-const myprompt = "Read the text on Aadhaar card image and extract ALL details. Give STRICT JSON only in this format: {\"adhaar_number\":\"\",\"name\":\"\",\"address\":\"\",\"city\":\"\"}. Address must be full address. City must be only city name (e.g. Zeropur, India → city = Zeropur). Do not skip any field."; 
+  "adhaar_number":"",
+  "name":"",
+  "address":"",
+  "city":""
+}
+`;
     const imageResp = await fetch(imgurl)
         .then((response) => response.arrayBuffer());
 
