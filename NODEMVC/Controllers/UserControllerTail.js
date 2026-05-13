@@ -231,10 +231,16 @@ async function doExtractAadhaar(req, resp) {
     const backData = await genAi(backUpload.secure_url);
 
     // MERGE BOTH
+    // const finalData = {
+    //   ...frontData,
+    //   ...backData
+    // };
     const finalData = {
-      ...frontData,
-      ...backData
-    };
+  adhaar_number: frontData.adhaar_number || backData.adhaar_number || "",
+  name: frontData.name || "",
+  address: backData.address || "",
+  city: backData.city || ""
+};
 
     return resp.status(200).json({
       status: true,
